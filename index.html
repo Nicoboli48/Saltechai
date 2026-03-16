@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sal Tech Solutions</title>
+  <meta name="description" content="Modern AI assistants for customer support, lead capture, and booking automation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0d16;
+      --bg-soft: #111729;
+      --panel: rgba(17, 23, 41, 0.75);
+      --panel-strong: rgba(15, 20, 35, 0.92);
+      --line: rgba(255,255,255,0.08);
+      --text: #f5f7ff;
+      --muted: #aab2c8;
+      --muted-2: #7f8aa8;
+      --accent-1: #7c3aed;
+      --accent-2: #06b6d4;
+      --accent-3: #ec4899;
+      --success: #22c55e;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(6,182,212,0.16), transparent 24%),
+        linear-gradient(180deg, #090c15 0%, #0a0d16 55%, #070a12 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 120px 120px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.12));
+      opacity: 0.32;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 13, 22, 0.68);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 10px 30px rgba(124,58,237,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.32);
+    }
+
+    .brand-mark::before {
+      inset: 9px 8px 18px 18px;
+      transform: rotate(45deg);
+    }
+
+    .brand-mark::after {
+      inset: 18px 18px 8px 8px;
+      transform: rotate(45deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: white;
+      box-shadow: 0 12px 30px rgba(124,58,237,0.28);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 72px 0 38px;
+    }
+
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border-radius: 34px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: auto -100px -100px auto;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(6,182,212,0.18), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #d9c7ff;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.24);
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+      box-shadow: 0 0 18px rgba(236,72,153,0.65);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 4.8vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 20%, #d7dfff 56%, #7dd3fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.75;
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .proof-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .proof-pill {
+      padding: 11px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(17,23,41,0.9), rgba(9,13,24,0.9));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 500px;
+      display: grid;
+      place-items: center;
+    }
+
+    .orb-wrap {
+      position: relative;
+      width: min(420px, 100%);
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .orb-bg {
+      position: absolute;
+      inset: 10%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,0.2), transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(6,182,212,0.25), transparent 35%),
+        radial-gradient(circle at 50% 50%, rgba(124,58,237,0.28), transparent 60%);
+      filter: blur(6px);
+      animation: pulse 5.5s ease-in-out infinite;
+    }
+
+    .orb-ring,
+    .orb-ring::before,
+    .orb-ring::after {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+      content: "";
+    }
+
+    .orb-ring { inset: 6%; }
+    .orb-ring::before { inset: 10%; }
+    .orb-ring::after { inset: 20%; }
+
+    .hero-image {
+      position: relative;
+      width: 66%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.14);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      z-index: 2;
+    }
+
+    .floating-card {
+      position: absolute;
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(8,12,22,0.9);
+      border: 1px solid rgba(255,255,255,0.09);
+      box-shadow: 0 18px 35px rgba(0,0,0,0.32);
+      backdrop-filter: blur(12px);
+      z-index: 3;
+      animation: floatY 4.8s ease-in-out infinite;
+    }
+
+    .floating-card.small {
+      top: 12%;
+      right: 0;
+      width: 170px;
+    }
+
+    .floating-card.large {
+      left: 0;
+      bottom: 10%;
+      width: 195px;
+      animation-delay: 0.6s;
+    }
+
+    .floating-label {
+      color: var(--muted-2);
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+
+    .floating-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .mini-bars {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      align-items: end;
+      height: 42px;
+    }
+
+    .mini-bars span {
+      display: block;
+      width: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent-1));
+      opacity: 0.9;
+    }
+
+    .mini-bars span:nth-child(1) { height: 18px; }
+    .mini-bars span:nth-child(2) { height: 30px; }
+    .mini-bars span:nth-child(3) { height: 24px; }
+    .mini-bars span:nth-child(4) { height: 38px; }
+
+    .section {
+      padding: 36px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      color: #c4b5fd;
+      font-size: 0.87rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      max-width: 58ch;
+      line-height: 1.75;
+    }
+
+    .feature-grid,
+    .agent-grid,
+    .stats-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .feature-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .agent-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 18px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto auto 0 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent-2), transparent 70%);
+      opacity: 0.9;
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.28);
+      color: #ddd6fe;
+      font-size: 1.25rem;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.24rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .agent-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #dbe6ff;
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+
+    .agent-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 20px;
+    }
+
+    .meta-pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .agent-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: #d7dfff;
+    }
+
+    .agent-link:hover { color: white; }
+
+    .stat-card {
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .split-section {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+    }
+
+    .cta-card {
+      padding: 28px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(6,182,212,0.16), transparent 30%),
+        radial-gradient(circle at left center, rgba(124,58,237,0.2), transparent 30%),
+        linear-gradient(180deg, rgba(12,17,32,0.95), rgba(8,12,22,0.96));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .bullet-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .bullet-item {
+      display: flex;
+      gap: 12px;
+      align-items: start;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    .bullet-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: rgba(34,197,94,0.15);
+      color: #86efac;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border: 1px solid rgba(34,197,94,0.28);
+      font-size: 0.85rem;
+    }
+
+    .contact-card {
+      display: grid;
+      gap: 16px;
+    }
+
+    .contact-line {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .contact-label {
+      color: var(--muted-2);
+      font-size: 0.84rem;
+      margin-bottom: 6px;
+    }
+
+    .contact-value {
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .footer {
+      padding: 30px 0 48px;
+      color: var(--muted-2);
+      font-size: 0.95rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.98); opacity: 0.8; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .split-section,
+      .feature-grid,
+      .agent-grid,
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-grid,
+      .split-section {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual { min-height: 440px; }
+    }
+
+    @media (max-width: 760px) {
+      .nav { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      .hero { padding-top: 42px; }
+      .hero-shell { padding: 22px; border-radius: 28px; }
+      .hero-grid,
+      .feature-grid,
+      .agent-grid,
+      .stats-grid,
+      .split-section {
+        grid-template-columns: 1fr;
+      }
+      .hero-visual { min-height: 360px; }
+      .floating-card.small { right: -8px; top: 4%; }
+      .floating-card.large { left: -6px; bottom: 2%; }
+      h1 { font-size: clamp(2.25rem, 13vw, 3.5rem); }
+      .section-head { align-items: start; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Sal Tech Solutions home">
+        <span class="brand-mark"></span>
+        <span>Sal Tech Solutions</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#features">Features</a>
+        <a href="#agents">Agents</a>
+        <a href="#about">Why SalTech</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="#agents">View Demos</a>
+        <a class="btn btn-primary" href="#contact">Book a Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-shell">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              AI-powered customer support and booking automation
+            </div>
+
+            <h1>
+              <span class="gradient-text">Modern AI Assistants</span><br>
+              built to help your business respond faster.
+            </h1>
+
+            <p>
+              Sal Tech Solutions builds intelligent AI assistants that answer customer questions, capture leads, and support appointment booking around the clock — so your business stays responsive even when you are busy.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#agents">Explore AI Demos</a>
+              <a class="btn btn-secondary" href="#about">See How It Works</a>
+            </div>
+
+            <div class="proof-row" aria-label="Key value points">
+              <div class="proof-pill">24/7 customer support</div>
+              <div class="proof-pill">Automated booking assistance</div>
+              <div class="proof-pill">Lead capture workflows</div>
+            </div>
+          </div>
+
+          <div class="hero-card hero-visual">
+            <div class="orb-wrap">
+              <div class="orb-bg"></div>
+              <div class="orb-ring"></div>
+
+              <!-- Replace the src below with your image path later, for example assets/hero-image.jpg -->
+              <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="Abstract AI technology visual representing human and artificial intelligence collaboration">
+              </div>
+
+              <div class="floating-card small">
+                <div class="floating-label">Always on</div>
+                <div class="floating-value">24/7 customer answers</div>
+                <div class="mini-bars" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+
+              <div class="floating-card large">
+                <div class="floating-label">Automation focus</div>
+                <div class="floating-value">Lead capture + scheduling support</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Core capabilities</div>
+            <h2>Smarter customer experiences without the heavy lift.</h2>
+          </div>
+          <p class="section-copy">
+            Designed for businesses that want a polished, modern way to handle inquiries, automate routine conversations, and stay available after hours.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="card">
+            <div class="card-icon">✦</div>
+            <h3>24/7 Customer Answers</h3>
+            <p>Your AI assistant can respond instantly to common questions, guide visitors, and create a better first impression at any hour.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">◎</div>
+            <h3>Automatic Booking Support</h3>
+            <p>Help customers move faster with assistant-led scheduling flows that reduce delays and simplify appointment requests.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">↗</div>
+            <h3>Lead Capture That Works</h3>
+            <p>Turn website traffic into real opportunities by collecting contact details and routing prospects into your workflow.</p>
+          </article>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Always-available support for visitors and prospects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">Fast</div>
+            <div class="stat-label">Instant responses that reduce waiting and missed inquiries</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">Modern</div>
+            <div class="stat-label">A polished AI presence that feels current and professional</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">Scalable</div>
+            <div class="stat-label">A foundation you can grow as your business automation expands</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="agents">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">AI demo lineup</div>
+            <h2>Explore the assistants behind the SalTech experience.</h2>
+          </div>
+          <p class="section-copy">
+            These demo concepts show how AI can support lead generation, scheduling, and customer triage in a clean, business-friendly way.
+          </p>
+        </div>
+
+        <div class="agent-grid">
+          <article class="card">
+            <div class="agent-card-top">
+              <div>
+                <h3>Lead Capture Assistant</h3>
+              </div>
+              <span class="tag">Live demo</span>
+            </div>
+            <p>Welcomes visitors, collects contact details, and helps convert interest into a qualified lead your business can follow up on.</p>
+            <div class="agent-meta">
+              <span class="meta-pill">Lead generation</span>
+              <span class="meta-pill">Website assistant</span>
+              <span class="meta-pill">Conversion support</span>
+            </div>
+            <a class="agent-link" href="#contact">Launch demo →</a>
+          </article>
+
+          <article class="card">
+            <div class="agent-card-top">
+              <div>
+                <h3>Booking Assistant</h3>
+              </div>
+              <span class="tag">Popular</span>
+            </div>
+            <p>Guides customers through appointment-related conversations and supports a smoother booking process with less back-and-forth.</p>
+            <div class="agent-meta">
+              <span class="meta-pill">Scheduling</span>
+              <span class="meta-pill">Customer support</span>
+              <span class="meta-pill">Workflow automation</span>
+            </div>
+            <a class="agent-link" href="#contact">Launch demo →</a>
+          </article>
+
+          <article class="card">
+            <div class="agent-card-top">
+              <div>
+                <h3>Triage Assistant</h3>
+              </div>
+              <span class="tag">In progress</span>
+            </div>
+            <p>Helps organize and prioritize incoming customer issues so businesses can respond more efficiently and route requests with confidence.</p>
+            <div class="agent-meta">
+              <span class="meta-pill">Issue triage</span>
+              <span class="meta-pill">Support routing</span>
+              <span class="meta-pill">AI classification</span>
+            </div>
+            <a class="agent-link" href="#contact">Coming soon →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container split-section">
+        <div class="cta-card">
+          <div class="section-kicker">Why SalTech</div>
+          <h2>Built for businesses that want modern automation without losing the human touch.</h2>
+          <p class="section-copy">
+            Sal Tech Solutions focuses on practical AI experiences that support real customer interactions — from answering questions to helping people take the next step.
+          </p>
+
+          <div class="bullet-list">
+            <div class="bullet-item">
+              <span class="bullet-check">✓</span>
+              <span>Professional, modern AI experiences designed to make your business look responsive and current.</span>
+            </div>
+            <div class="bullet-item">
+              <span class="bullet-check">✓</span>
+              <span>Flexible foundations for customer support, booking, and lead workflows that can grow over time.</span>
+            </div>
+            <div class="bullet-item">
+              <span class="bullet-check">✓</span>
+              <span>Simple presentation now, with room to expand later into more advanced automation and service pages.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-card contact-card" id="contact">
+          <div>
+            <div class="section-kicker">Contact</div>
+            <h2>Ready to explore an AI assistant for your business?</h2>
+            <p class="section-copy">Use this section for your preferred contact options, consultation link, or a future embedded form.</p>
+          </div>
+
+          <div class="contact-line">
+            <div class="contact-label">Business email</div>
+            <div class="contact-value">hello@saltechai.com</div>
+          </div>
+
+          <div class="contact-line">
+            <div class="contact-label">Demo availability</div>
+            <div class="contact-value">Lead capture, booking assistant, and additional AI workflow demos</div>
+          </div>
+
+          <div class="contact-line">
+            <div class="contact-label">Next step</div>
+            <div class="contact-value">Replace this block with your live booking link, form, or direct business contact details.</div>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:hello@saltechai.com">Email SalTech</a>
+            <a class="btn btn-secondary" href="#top">Back to Top</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 Sal Tech Solutions. All rights reserved.</div>
+      <div>
+        <a href="#">Privacy Policy</a>
+        &nbsp;•&nbsp;
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
