@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sal Tech Solutions | AI Agent Demos</title>
+  <meta name="description" content="Explore Sal Tech Solutions AI agent demos for lead capture, booking support, and intelligent customer triage." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0d16;
+      --bg-soft: #111729;
+      --panel: rgba(17, 23, 41, 0.76);
+      --panel-strong: rgba(12, 18, 33, 0.94);
+      --line: rgba(255,255,255,0.08);
+      --text: #f5f7ff;
+      --muted: #aab2c8;
+      --muted-2: #7f8aa8;
+      --accent-1: #7c3aed;
+      --accent-2: #06b6d4;
+      --accent-3: #ec4899;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --shadow: 0 20px 60px rgba(0,0,0,0.34);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(6,182,212,0.14), transparent 24%),
+        linear-gradient(180deg, #090c15 0%, #0a0d16 55%, #070a12 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 120px 120px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.15));
+      opacity: 0.26;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 13, 22, 0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 10px 30px rgba(124,58,237,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.32);
+    }
+
+    .brand-mark::before {
+      inset: 9px 8px 18px 18px;
+      transform: rotate(45deg);
+    }
+
+    .brand-mark::after {
+      inset: 18px 18px 8px 8px;
+      transform: rotate(45deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.is-active { color: var(--text); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: white;
+      box-shadow: 0 12px 30px rgba(124,58,237,0.28);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 54px 0 24px;
+    }
+
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border-radius: 34px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -120px -120px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(124,58,237,0.18), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #d9c7ff;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.24);
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+      box-shadow: 0 0 18px rgba(236,72,153,0.65);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 4.7vw, 4.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 20%, #d7dfff 56%, #7dd3fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.74;
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .hero-panel {
+      position: relative;
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(17,23,41,0.9), rgba(9,13,24,0.9));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .signal-card {
+      border-radius: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .signal-label {
+      color: var(--muted-2);
+      font-size: 0.84rem;
+      margin-bottom: 10px;
+    }
+
+    .signal-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .section {
+      padding: 28px 0 40px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      color: #c4b5fd;
+      font-size: 0.87rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      max-width: 58ch;
+      line-height: 1.75;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto auto 0 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent-2), transparent 70%);
+      opacity: 0.9;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.28);
+      color: #ddd6fe;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: #dbe6ff;
+    }
+
+    .badge.live { color: #d1fae5; border-color: rgba(34,197,94,0.25); background: rgba(34,197,94,0.1); }
+    .badge.soon { color: #fde68a; border-color: rgba(245,158,11,0.25); background: rgba(245,158,11,0.1); }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.34rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 18px;
+    }
+
+    .meta-pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .demo-frame {
+      margin-top: 18px;
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(5, 9, 18, 0.72);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .demo-label {
+      color: var(--muted-2);
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+
+    .demo-box {
+      min-height: 180px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top right, rgba(124,58,237,0.12), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px dashed rgba(255,255,255,0.12);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+    }
+
+    .callout {
+      padding: 28px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(6,182,212,0.16), transparent 30%),
+        radial-gradient(circle at left center, rgba(124,58,237,0.2), transparent 30%),
+        linear-gradient(180deg, rgba(12,17,32,0.95), rgba(8,12,22,0.96));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .list-item {
+      display: flex;
+      gap: 12px;
+      align-items: start;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: rgba(34,197,94,0.15);
+      color: #86efac;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border: 1px solid rgba(34,197,94,0.28);
+      font-size: 0.85rem;
+    }
+
+    .footer {
+      padding: 30px 0 48px;
+      color: var(--muted-2);
+      font-size: 0.95rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .two-col,
+      .demo-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      .hero-shell { padding: 22px; border-radius: 28px; }
+      .demo-grid,
+      .signal-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: clamp(2.2rem, 13vw, 3.5rem); }
+      .section-head { align-items: start; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Sal Tech Solutions home">
+        <span class="brand-mark"></span>
+        <span>Sal Tech Solutions</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html#features">Features</a>
+        <a class="is-active" href="agents.html">Agents</a>
+        <a href="index.html#about">Why SalTech</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="#demo-grid">View Demos</a>
+        <a class="btn btn-primary" href="index.html#contact">Book a Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-shell">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              Interactive AI demos for real business workflows
+            </div>
+
+            <h1>
+              <span class="gradient-text">Live AI Agent Demos</span><br>
+              ready to show what SalTech can do.
+            </h1>
+
+            <p class="hero-copy">
+              Explore the current Sal Tech Solutions agent lineup, see what each assistant is designed to handle, and connect each demo to the practical business outcomes it supports.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#demo-grid">Open Demo Lineup</a>
+              <a class="btn btn-secondary" href="index.html">Back to Homepage</a>
+            </div>
+          </div>
+
+          <div class="hero-panel">
+            <div class="section-kicker" style="margin-bottom:12px;">Quick overview</div>
+            <div class="signal-grid">
+              <div class="signal-card">
+                <div class="signal-label">Live now</div>
+                <div class="signal-value">Lead capture demo ready for action.</div>
+              </div>
+              <div class="signal-card">
+                <div class="signal-label">Up next</div>
+                <div class="signal-value">Booking assistant ready to showcase next.</div>
+              </div>
+              <div class="signal-card">
+                <div class="signal-label">Best fit</div>
+                <div class="signal-value">Service businesses and response-heavy websites.</div>
+              </div>
+              <div class="signal-card">
+                <div class="signal-label">Roadmap</div>
+                <div class="signal-value">Triage and document intelligence coming later.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo-grid">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Live demos</div>
+            <h2>Try the agents first. Read the details second.</h2>
+          </div>
+          <p class="section-copy">
+            This section should feel like a real demo showroom. Each card below is a direct launch point for a live agent or a clearly marked upcoming release.
+          </p>
+        </div>
+
+        <div class="demo-grid">
+          <article class="card">
+            <div class="card-top">
+              <div class="card-icon">✦</div>
+              <span class="badge live">Live demo</span>
+            </div>
+            <h3>Lead Capture Assistant</h3>
+            <p>Capture leads, collect contact details, and turn curiosity into a real business opportunity.</p>
+            <div class="meta-row">
+              <span class="meta-pill">Lead generation</span>
+              <span class="meta-pill">Live now</span>
+              <span class="meta-pill">Conversion support</span>
+            </div>
+            <div class="demo-frame">
+              <div class="demo-label">Live demo area</div>
+              <div class="demo-box">
+                Place your real Lead Capture demo here so visitors can immediately test the assistant experience.
+              </div>
+            </div>
+            <div class="actions-row">
+              <a class="btn btn-primary" href="#">Launch Demo</a>
+              <a class="btn btn-secondary" href="#supporting-info">What it solves</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <div class="card-icon">◎</div>
+              <span class="badge live">Ready next</span>
+            </div>
+            <h3>Booking Assistant</h3>
+            <p>Guide visitors toward appointments and reduce the friction that slows down scheduling conversations.</p>
+            <div class="meta-row">
+              <span class="meta-pill">Scheduling</span>
+              <span class="meta-pill">Customer support</span>
+              <span class="meta-pill">Workflow automation</span>
+            </div>
+            <div class="demo-frame">
+              <div class="demo-label">Live demo area</div>
+              <div class="demo-box">
+                Drop in the Booking Assistant demo here when you are ready for visitors to test the scheduling workflow.
+              </div>
+            </div>
+            <div class="actions-row">
+              <a class="btn btn-primary" href="#">Launch Demo</a>
+              <a class="btn btn-secondary" href="#supporting-info">What it solves</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <div class="card-icon">↗</div>
+              <span class="badge soon">Coming soon</span>
+            </div>
+            <h3>Triage Assistant</h3>
+            <p>Route support issues more intelligently and help businesses classify incoming requests before human follow-up.</p>
+            <div class="meta-row">
+              <span class="meta-pill">Issue triage</span>
+              <span class="meta-pill">AI routing</span>
+              <span class="meta-pill">Future release</span>
+            </div>
+            <div class="demo-frame">
+              <div class="demo-label">Preview area</div>
+              <div class="demo-box">
+                Keep this area for a future triage demo, mockup, or product preview once the flow is ready.
+              </div>
+            </div>
+            <div class="actions-row">
+              <a class="btn btn-secondary" href="#supporting-info">See roadmap</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="supporting-info">
+      <div class="container two-col">
+        <div class="callout">
+          <div class="section-kicker">Supporting info</div>
+          <h2>Now the supporting details are clearly separated.</h2>
+          <p class="section-copy">
+            The live demos now sit first, and this lower section explains how the page works, what the agents solve, and how the showroom can expand over time.
+          </p>
+          <div class="list">
+            <div class="list-item"><span class="check">✓</span><span>Embed your live Voiceflow or website widget directly into each demo area.</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Use each “Launch Demo” button to open a dedicated demo page, popup, or external agent experience.</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Add screenshots, mini workflow diagrams, or a short client-use explanation under each assistant later.</span></div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="section-kicker">Conversion strategy</div>
+          <h2>Let the demos sell the consultation.</h2>
+          <p class="section-copy">
+            Once visitors can see how the agents work, the next strongest move is a clear invitation to discuss a custom build for their own business.
+          </p>
+          <div class="list">
+            <div class="list-item"><span class="check">✓</span><span>Keep “Book a Consultation” visible in the header.</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Link each agent to a short explanation of who it helps and what business problem it solves.</span></div>
+            <div class="list-item"><span class="check">✓</span><span>Later add one success metric or client-style use case beneath each live demo.</span></div>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="index.html#contact">Book a Consultation</a>
+            <a class="btn btn-secondary" href="index.html#features">See Features</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 Sal Tech Solutions. All rights reserved.</div>
+      <div>
+        <a href="privacy.html">Privacy Policy</a>
+        &nbsp;•&nbsp;
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
