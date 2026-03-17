@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sal Tech Solutions | Booking Demo</title>
+  <meta name="description" content="Try the Sal Tech Solutions Booking Assistant demo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0d16;
+      --line: rgba(255,255,255,0.08);
+      --text: #f5f7ff;
+      --muted: #aab2c8;
+      --muted-2: #7f8aa8;
+      --accent-1: #7c3aed;
+      --accent-2: #06b6d4;
+      --accent-3: #ec4899;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(6,182,212,0.14), transparent 24%),
+        linear-gradient(180deg, #090c15 0%, #0a0d16 55%, #070a12 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 120px 120px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.15));
+      opacity: 0.24;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 13, 22, 0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 10px 30px rgba(124,58,237,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.32);
+    }
+
+    .brand-mark::before {
+      inset: 9px 8px 18px 18px;
+      transform: rotate(45deg);
+    }
+
+    .brand-mark::after {
+      inset: 18px 18px 8px 8px;
+      transform: rotate(45deg);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: white;
+      box-shadow: 0 12px 30px rgba(124,58,237,0.28);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 36px 0 18px;
+    }
+
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border-radius: 34px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #d9c7ff;
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.24);
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+      box-shadow: 0 0 18px rgba(236,72,153,0.65);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.3rem, 4.5vw, 4.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 20%, #d7dfff 56%, #7dd3fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.74;
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .demo-section {
+      padding: 0 0 44px;
+      margin-top: -2px;
+    }
+
+    .demo-shell {
+      border-radius: 30px;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .demo-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .demo-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .demo-copy {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 62ch;
+      font-size: 0.98rem;
+    }
+
+    .demo-stage {
+      min-height: 620px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(124,58,237,0.12), transparent 35%),
+        linear-gradient(180deg, rgba(5, 9, 18, 0.76), rgba(8, 12, 22, 0.82));
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .launch-state {
+      max-width: 720px;
+      width: 100%;
+      text-align: center;
+      padding: 30px 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .launch-state.hidden { display: none; }
+
+    .launch-title {
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin: 0 0 12px;
+    }
+
+    .launch-copy {
+      margin: 0 auto 22px;
+      max-width: 55ch;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    .launch-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    #vf-demo-target {
+      width: min(100%, 940px);
+      height: 620px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      display: none;
+      box-shadow: var(--shadow);
+    }
+
+    #vf-demo-target.is-live { display: block; }
+
+    .footnote {
+      color: var(--muted-2);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 1024px) {
+      .demo-stage { min-height: 560px; }
+      #vf-demo-target { height: 540px; }
+    }
+
+    @media (max-width: 760px) {
+      .hero-shell,
+      .demo-shell { padding: 20px; border-radius: 26px; }
+      h1 { font-size: clamp(2.2rem, 13vw, 3.5rem); }
+      .demo-stage { min-height: 520px; padding: 14px; }
+      #vf-demo-target { height: 500px; }
+      .launch-state { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Sal Tech Solutions home">
+        <span class="brand-mark"></span>
+        <span>Sal Tech Solutions</span>
+      </a>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="agents.html">Back to Demos</a>
+        <a class="btn btn-primary" href="index.html">Return Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-shell">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Focused demo experience with no distractions
+        </div>
+
+        <h1>
+          <span class="gradient-text">Booking Assistant</span><br>
+          live demo.
+        </h1>
+
+        <p class="hero-copy">
+          Experience how SalTech AI guides visitors through service questions, availability, and booking steps in a clean, focused flow.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="launch-demo-btn" type="button">Launch Live Demo</button>
+          <a class="btn btn-secondary" href="agents.html">Back to Agent Lineup</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <div class="container demo-shell">
+        <div class="demo-top">
+          <div>
+            <div class="demo-title">Interactive demo</div>
+            <div class="demo-copy">Click Launch Live Demo to open a fresh booking session and interact with the assistant.</div>
+          </div>
+        </div>
+
+        <div class="demo-stage">
+          <div class="launch-state" id="launch-state">
+            <h2 class="launch-title">Launch the demo when you're ready.</h2>
+            <p class="launch-copy">This page keeps the experience simple: click once to start a fresh Booking Assistant demo, then test the assistant without anything else competing for attention.</p>
+            <div class="launch-actions">
+              <button class="btn btn-primary" id="launch-demo-btn-2" type="button">Launch Live Demo</button>
+              <a class="btn btn-secondary" href="agents.html">Back to Demos</a>
+            </div>
+          </div>
+
+          <div id="vf-demo-target" aria-label="Booking Demo Container"></div>
+        </div>
+
+        <div class="footnote">Fresh session on each page load. Back buttons stay visible whenever you want to leave the demo.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const target = document.getElementById('vf-demo-target');
+      const launchState = document.getElementById('launch-state');
+      const launchButtons = [
+        document.getElementById('launch-demo-btn'),
+        document.getElementById('launch-demo-btn-2')
+      ].filter(Boolean);
+
+      let scriptLoaded = false;
+      let demoStarted = false;
+
+      function clearVoiceflowSessionData() {
+        try {
+          const keysToRemove = [];
+          for (let i = 0; i < window.localStorage.length; i++) {
+            const key = window.localStorage.key(i);
+            if (key && key.toLowerCase().includes('voiceflow')) {
+              keysToRemove.push(key);
+            }
+          }
+          keysToRemove.forEach((key) => window.localStorage.removeItem(key));
+        } catch (e) {}
+
+        try {
+          const keysToRemove = [];
+          for (let i = 0; i < window.sessionStorage.length; i++) {
+            const key = window.sessionStorage.key(i);
+            if (key && key.toLowerCase().includes('voiceflow')) {
+              keysToRemove.push(key);
+            }
+          }
+          keysToRemove.forEach((key) => window.sessionStorage.removeItem(key));
+        } catch (e) {}
+
+        try {
+          document.cookie.split(';').forEach((cookie) => {
+            const name = cookie.split('=')[0].trim();
+            if (name.toLowerCase().includes('voiceflow')) {
+              document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            }
+          });
+        } catch (e) {}
+      }
+
+      function loadVoiceflowScript() {
+        return new Promise((resolve, reject) => {
+          if (scriptLoaded) {
+            resolve();
+            return;
+          }
+
+          const existing = document.querySelector('script[data-vf-widget="true"]');
+          if (existing) {
+            existing.addEventListener('load', () => {
+              scriptLoaded = true;
+              resolve();
+            });
+            return;
+          }
+
+          const script = document.createElement('script');
+          script.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
+          script.type = 'text/javascript';
+          script.dataset.vfWidget = 'true';
+          script.onload = () => {
+            scriptLoaded = true;
+            resolve();
+          };
+          script.onerror = reject;
+          document.body.appendChild(script);
+        });
+      }
+
+      async function startDemo() {
+        if (demoStarted) return;
+        demoStarted = true;
+
+        launchButtons.forEach((btn) => {
+          btn.disabled = true;
+          btn.textContent = 'Launching...';
+        });
+
+        clearVoiceflowSessionData();
+
+        try {
+          await loadVoiceflowScript();
+
+          if (!window.voiceflow || !window.voiceflow.chat) {
+            throw new Error('Voiceflow widget not available.');
+          }
+
+          target.innerHTML = '';
+          target.classList.add('is-live');
+          launchState.classList.add('hidden');
+
+          window.voiceflow.chat.load({
+            verify: { projectID: '69b8a5ed68ad722ba8a4c1d6' },
+            url: 'https://general-runtime.voiceflow.com',
+            versionID: 'production',
+            voice: {
+              url: 'https://runtime-api.voiceflow.com'
+            },
+            render: {
+              mode: 'embedded',
+              target: target
+            },
+            autostart: false
+          });
+        } catch (error) {
+          demoStarted = false;
+          launchButtons.forEach((btn) => {
+            btn.disabled = false;
+            btn.textContent = 'Launch Live Demo';
+          });
+          alert('The demo could not be loaded right now. Please try again.');
+        }
+      }
+
+      window.addEventListener('load', clearVoiceflowSessionData);
+      launchButtons.forEach((btn) => btn.addEventListener('click', startDemo));
+    })();
+  </script>
+</body>
+</html>
