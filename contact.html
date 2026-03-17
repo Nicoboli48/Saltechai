@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sal Tech Solutions | Contact</title>
+  <meta name="description" content="Contact Sal Tech Solutions to discuss AI assistants, automation, and customer support workflows." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0d16;
+      --text: #f5f7ff;
+      --muted: #aab2c8;
+      --accent-1: #7c3aed;
+      --accent-2: #06b6d4;
+      --shadow: 0 20px 60px rgba(0,0,0,0.34);
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(6,182,212,0.14), transparent 24%),
+        linear-gradient(180deg, #090c15 0%, #0a0d16 55%, #070a12 100%);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 13, 22, 0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 10px 30px rgba(124,58,237,0.35);
+    }
+    .nav-links { display: flex; gap: 24px; color: var(--muted); font-size: .95rem; }
+    .nav-links a:hover, .nav-links a.is-active { color: var(--text); }
+    .nav-actions { display: flex; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 46px; padding: 0 18px; border-radius: 999px;
+      border: 1px solid transparent; font-weight: 600; transition: .25s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: white; box-shadow: 0 12px 30px rgba(124,58,237,0.28);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+    .hero { padding: 56px 0 26px; }
+    .hero-shell {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border-radius: 34px; padding: 34px; box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.88rem; color: #d9c7ff; background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.24); border-radius: 999px;
+      padding: 8px 12px; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: clamp(2.35rem, 4.7vw, 4.8rem); line-height: 0.98; letter-spacing: -0.055em; }
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 20%, #d7dfff 56%, #7dd3fc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; color: transparent;
+    }
+    .hero-copy, .section-copy { color: var(--muted); line-height: 1.75; max-width: 62ch; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
+    .section { padding: 20px 0 40px; }
+    .section-kicker {
+      color: #c4b5fd; font-size: 0.87rem; text-transform: uppercase;
+      letter-spacing: 0.16em; margin-bottom: 10px;
+    }
+    h2 { margin: 0; font-size: clamp(1.9rem, 3vw, 3rem); letter-spacing: -0.04em; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      padding: 24px; border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 12px; font-size: 1.3rem; letter-spacing: -0.03em; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.72; }
+    .footer { padding: 30px 0 48px; color: #7f8aa8; font-size: 0.95rem; }
+    .footer-inner {
+      display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+      padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    @media (max-width: 760px) {
+      .nav { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .hero-shell { padding: 22px; border-radius: 28px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Sal Tech Solutions home">
+        <span class="brand-mark"></span>
+        <span>Sal Tech Solutions</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html#features">Features</a>
+        <a href="agents.html">Agents</a>
+        <a href="whysaltech.html">Why SalTech</a>
+        <a class="is-active" href="contact.html">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="agents.html">View Demos</a>
+        <a class="btn btn-primary" href="contact.html">Book a Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-shell">
+        <div class="eyebrow">Contact SalTech</div>
+        <h1><span class="gradient-text">Let’s talk about</span><br>your business goals.</h1>
+        <p class="hero-copy">
+          Have questions about AI assistants, automation, or website integration? Reach out and let’s explore the right solution for your business.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="mailto:hello@saltechai.com">Email SalTech</a>
+          <a class="btn btn-secondary" href="agents.html">View Demos</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-kicker">Get in touch</div>
+        <h2>A simple next step.</h2>
+        <p class="section-copy" style="margin-bottom:22px;">
+          Reach out to discuss your business needs, demo availability, or how AI assistants can support customer interaction and automation.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Business Email</h3>
+            <p>hello@saltechai.com</p>
+          </article>
+
+          <article class="card">
+            <h3>Demo Availability</h3>
+            <p>Lead capture, booking assistant, and other AI workflow demos available on request.</p>
+          </article>
+
+          <article class="card">
+            <h3>Response Time</h3>
+            <p>We aim to respond as soon as possible to discuss your goals, questions, and next steps.</p>
+          </article>
+        </div>
+
+        <div class="hero-actions" style="margin-top:28px;">
+          <a class="btn btn-primary" href="mailto:hello@saltechai.com">Email SalTech</a>
+          <a class="btn btn-secondary" href="whysaltech.html">Why SalTech</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 Sal Tech Solutions. All rights reserved.</div>
+      <div>
+        <a href="privacy.html">Privacy Policy</a>
+        &nbsp;•&nbsp;
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
