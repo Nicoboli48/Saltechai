@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sal Tech Solutions | AI Agent Demos</title>
-  <meta name="description" content="Explore Sal Tech Solutions AI agent demos for lead capture, booking support, and intelligent customer triage." />
+  <title>Sal Tech Solutions | AI Assistants</title>
+  <meta name="description" content="Explore Sal Tech Solutions AI assistants for FAQ support, lead capture, and booking automation." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +13,6 @@
       --bg: #0a0d16;
       --bg-soft: #111729;
       --panel: rgba(17, 23, 41, 0.76);
-      --panel-strong: rgba(12, 18, 33, 0.94);
       --line: rgba(255,255,255,0.08);
       --text: #f5f7ff;
       --muted: #aab2c8;
@@ -24,9 +23,6 @@
       --success: #22c55e;
       --warning: #f59e0b;
       --shadow: 0 20px 60px rgba(0,0,0,0.34);
-      --radius-xl: 30px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
       --max: 1180px;
     }
 
@@ -58,7 +54,6 @@
     }
 
     a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
 
     .container {
       width: min(calc(100% - 32px), var(--max));
@@ -169,7 +164,7 @@
     }
 
     .hero {
-      padding: 54px 0 24px;
+      padding: 54px 0 30px;
     }
 
     .hero-shell {
@@ -194,8 +189,8 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 30px;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 28px;
       align-items: center;
     }
 
@@ -222,7 +217,7 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(2.4rem, 4.7vw, 4.8rem);
+      font-size: clamp(2.35rem, 4.7vw, 4.8rem);
       line-height: 0.98;
       letter-spacing: -0.055em;
     }
@@ -251,7 +246,6 @@
     }
 
     .hero-panel {
-      position: relative;
       border-radius: 28px;
       padding: 24px;
       background: linear-gradient(180deg, rgba(17,23,41,0.9), rgba(9,13,24,0.9));
@@ -259,33 +253,43 @@
       box-shadow: var(--shadow);
     }
 
-    .signal-grid {
+    .hero-panel h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .mini-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      gap: 12px;
+      margin-top: 18px;
     }
 
-    .signal-card {
-      border-radius: 20px;
-      padding: 18px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+    .mini-list-item {
+      display: flex;
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      line-height: 1.65;
     }
 
-    .signal-label {
-      color: var(--muted-2);
-      font-size: 0.84rem;
-      margin-bottom: 10px;
-    }
-
-    .signal-value {
-      font-size: 1.15rem;
-      font-weight: 700;
-      line-height: 1.4;
+    .mini-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-top: 8px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
     }
 
     .section {
-      padding: 28px 0 40px;
+      padding: 18px 0 40px;
     }
 
     .section-head {
@@ -316,7 +320,7 @@
       line-height: 1.75;
     }
 
-    .demo-grid {
+    .assistant-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
@@ -384,7 +388,7 @@
 
     .card h3 {
       margin: 0 0 12px;
-      font-size: 1.34rem;
+      font-size: 1.3rem;
       letter-spacing: -0.03em;
     }
 
@@ -394,93 +398,23 @@
       line-height: 1.72;
     }
 
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 16px 0 18px;
-    }
-
-    .meta-pill {
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .demo-frame {
-      margin-top: 18px;
-      border-radius: 18px;
-      padding: 16px;
-      background: rgba(5, 9, 18, 0.72);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .demo-label {
-      color: var(--muted-2);
-      font-size: 0.78rem;
-      margin-bottom: 10px;
-    }
-
-    .demo-box {
-      min-height: 180px;
-      border-radius: 16px;
-      background:
-        radial-gradient(circle at top right, rgba(124,58,237,0.12), transparent 35%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px dashed rgba(255,255,255,0.12);
+    .benefits {
       display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 16px;
+      gap: 12px;
+      margin: 18px 0 20px;
+    }
+
+    .benefit {
+      display: flex;
+      gap: 10px;
+      align-items: start;
       color: var(--muted);
       line-height: 1.65;
     }
 
-    .actions-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: auto;
-      padding-top: 20px;
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 18px;
-    }
-
-    .callout {
-      padding: 28px;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at top right, rgba(6,182,212,0.16), transparent 30%),
-        radial-gradient(circle at left center, rgba(124,58,237,0.2), transparent 30%),
-        linear-gradient(180deg, rgba(12,17,32,0.95), rgba(8,12,22,0.96));
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: var(--shadow);
-    }
-
-    .list {
-      display: grid;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .list-item {
-      display: flex;
-      gap: 12px;
-      align-items: start;
-      color: var(--muted);
-      line-height: 1.68;
-    }
-
-    .check {
-      width: 22px;
-      height: 22px;
+    .benefit-check {
+      width: 20px;
+      height: 20px;
       border-radius: 999px;
       display: inline-grid;
       place-items: center;
@@ -489,7 +423,27 @@
       flex-shrink: 0;
       margin-top: 2px;
       border: 1px solid rgba(34,197,94,0.28);
-      font-size: 0.85rem;
+      font-size: 0.78rem;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+    .cta-wrap {
+      margin-top: 24px;
+      padding: 30px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(6,182,212,0.16), transparent 30%),
+        radial-gradient(circle at left center, rgba(124,58,237,0.2), transparent 30%),
+        linear-gradient(180deg, rgba(12,17,32,0.95), rgba(8,12,22,0.96));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
     }
 
     .footer {
@@ -509,13 +463,11 @@
 
     @media (max-width: 1080px) {
       .hero-grid,
-      .two-col,
-      .demo-grid {
+      .assistant-grid {
         grid-template-columns: 1fr 1fr;
       }
 
-      .hero-grid,
-      .two-col {
+      .hero-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -524,9 +476,7 @@
       .nav { flex-wrap: wrap; }
       .nav-links { display: none; }
       .hero-shell { padding: 22px; border-radius: 28px; }
-      .demo-grid,
-      .signal-grid,
-      .two-col {
+      .assistant-grid {
         grid-template-columns: 1fr;
       }
       h1 { font-size: clamp(2.2rem, 13vw, 3.5rem); }
@@ -551,7 +501,7 @@
       </nav>
 
       <div class="nav-actions">
-        <a class="btn btn-secondary" href="#demo-grid">View Demos</a>
+        <a class="btn btn-secondary" href="index.html">Back to Homepage</a>
         <a class="btn btn-primary" href="index.html#contact">Book a Consultation</a>
       </div>
     </div>
@@ -564,107 +514,87 @@
           <div>
             <div class="eyebrow">
               <span class="eyebrow-dot"></span>
-              Interactive AI demos for real business workflows
+              AI assistants built for real business workflows
             </div>
 
             <h1>
-              <span class="gradient-text">Live AI Agent Demos</span><br>
-              ready to show what SalTech can do.
+              <span class="gradient-text">Meet Your AI Assistants</span><br>
+              built to support growth, speed, and better customer response.
             </h1>
 
             <p class="hero-copy">
-              Explore the current Sal Tech Solutions agent lineup, see what each assistant is designed to handle, and connect each demo to the practical business outcomes it supports.
+              Explore how Sal Tech Solutions uses intelligent assistants to answer questions, capture leads, and guide visitors toward real business action.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#demo-grid">Open Demo Lineup</a>
-              <a class="btn btn-secondary" href="index.html">Back to Homepage</a>
+              <a class="btn btn-primary" href="booking-demo.html">Try Booking Demo</a>
+              <a class="btn btn-secondary" href="lead-demo.html">Try Lead Demo</a>
             </div>
           </div>
 
           <div class="hero-panel">
-            <div class="section-kicker" style="margin-bottom:12px;">Quick overview</div>
-            <div class="signal-grid">
-              <div class="signal-card">
-                <div class="signal-label">Live now</div>
-                <div class="signal-value">Lead capture demo ready for action.</div>
-              </div>
-              <div class="signal-card">
-                <div class="signal-label">Up next</div>
-                <div class="signal-value">Booking assistant ready to showcase next.</div>
-              </div>
-              <div class="signal-card">
-                <div class="signal-label">Best fit</div>
-                <div class="signal-value">Service businesses and response-heavy websites.</div>
-              </div>
-              <div class="signal-card">
-                <div class="signal-label">Roadmap</div>
-                <div class="signal-value">Triage and document intelligence coming later.</div>
-              </div>
+            <h3>What this page is for</h3>
+            <p>
+              This page gives visitors a clean overview of each assistant, what it helps with, and which demos are ready to explore right now.
+            </p>
+            <div class="mini-list">
+              <div class="mini-list-item"><span class="mini-dot"></span><span>Booking assistant for scheduling conversations</span></div>
+              <div class="mini-list-item"><span class="mini-dot"></span><span>Lead capture assistant for prospect collection</span></div>
+              <div class="mini-list-item"><span class="mini-dot"></span><span>FAQ assistant for always-on customer support</span></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="demo-grid">
+    <section class="section">
       <div class="container">
         <div class="section-head">
           <div>
-            <div class="section-kicker">Live demos</div>
-            <h2>Try the agents first. Read the details second.</h2>
+            <div class="section-kicker">Assistant lineup</div>
+            <h2>Explore the current SalTech assistant experience.</h2>
           </div>
           <p class="section-copy">
-            This section should feel like a real demo showroom. Each card below is a direct launch point for a live agent or a clearly marked upcoming release.
+            Each assistant below is designed around a specific business need, helping visitors move from questions to action in a faster, more guided way.
           </p>
         </div>
 
-        <div class="demo-grid">
+        <div class="assistant-grid">
           <article class="card">
             <div class="card-top">
-              <div class="card-icon">✦</div>
+              <div class="card-icon">◎</div>
               <span class="badge live">Live demo</span>
             </div>
-            <h3>Lead Capture Assistant</h3>
-            <p>Capture leads, collect contact details, and turn curiosity into a real business opportunity.</p>
-            <div class="meta-row">
-              <span class="meta-pill">Lead generation</span>
-              <span class="meta-pill">Live now</span>
-              <span class="meta-pill">Conversion support</span>
+            <h3>Automatic Booking Assistant</h3>
+            <p>Helps website visitors choose services, ask booking-related questions, and move smoothly toward scheduling.</p>
+
+            <div class="benefits">
+              <div class="benefit"><span class="benefit-check">✓</span><span>Turns interest into confirmed appointments</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Reduces manual scheduling back-and-forth</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Creates a modern and guided customer experience</span></div>
             </div>
-            <div class="demo-frame">
-              <div class="demo-label">Live demo area</div>
-              <div class="demo-box">
-                Place your real Lead Capture demo here so visitors can immediately test the assistant experience.
-              </div>
-            </div>
+
             <div class="actions-row">
-              <a class="btn btn-primary" href="#">Launch Demo</a>
-              <a class="btn btn-secondary" href="#supporting-info">What it solves</a>
+              <a class="btn btn-primary" href="booking-demo.html">Launch Booking Demo</a>
             </div>
           </article>
 
           <article class="card">
             <div class="card-top">
-              <div class="card-icon">◎</div>
-              <span class="badge live">Ready next</span>
+              <div class="card-icon">✦</div>
+              <span class="badge live">Live demo</span>
             </div>
-            <h3>Booking Assistant</h3>
-            <p>Guide visitors toward appointments and reduce the friction that slows down scheduling conversations.</p>
-            <div class="meta-row">
-              <span class="meta-pill">Scheduling</span>
-              <span class="meta-pill">Customer support</span>
-              <span class="meta-pill">Workflow automation</span>
+            <h3>Lead Capture AI Agent</h3>
+            <p>Engages visitors naturally and collects contact details so businesses can follow up with qualified prospects.</p>
+
+            <div class="benefits">
+              <div class="benefit"><span class="benefit-check">✓</span><span>Captures more potential customer opportunities</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Improves first impressions and responsiveness</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Supports long-term growth through lead generation</span></div>
             </div>
-            <div class="demo-frame">
-              <div class="demo-label">Live demo area</div>
-              <div class="demo-box">
-                Drop in the Booking Assistant demo here when you are ready for visitors to test the scheduling workflow.
-              </div>
-            </div>
+
             <div class="actions-row">
-              <a class="btn btn-primary" href="#">Launch Demo</a>
-              <a class="btn btn-secondary" href="#supporting-info">What it solves</a>
+              <a class="btn btn-primary" href="lead-demo.html">Launch Lead Demo</a>
             </div>
           </article>
 
@@ -673,56 +603,30 @@
               <div class="card-icon">↗</div>
               <span class="badge soon">Coming soon</span>
             </div>
-            <h3>Triage Assistant</h3>
-            <p>Route support issues more intelligently and help businesses classify incoming requests before human follow-up.</p>
-            <div class="meta-row">
-              <span class="meta-pill">Issue triage</span>
-              <span class="meta-pill">AI routing</span>
-              <span class="meta-pill">Future release</span>
+            <h3>24/7 AI FAQ Assistant</h3>
+            <p>Answers common customer questions instantly, helping businesses stay responsive even outside normal business hours.</p>
+
+            <div class="benefits">
+              <div class="benefit"><span class="benefit-check">✓</span><span>Provides always-on customer support</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Reduces repetitive inquiries and response delays</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Improves customer satisfaction with quick answers</span></div>
             </div>
-            <div class="demo-frame">
-              <div class="demo-label">Preview area</div>
-              <div class="demo-box">
-                Keep this area for a future triage demo, mockup, or product preview once the flow is ready.
-              </div>
-            </div>
+
             <div class="actions-row">
-              <a class="btn btn-secondary" href="#supporting-info">See roadmap</a>
+              <span class="btn btn-secondary" style="cursor:default;">Demo Coming Soon</span>
             </div>
           </article>
         </div>
-      </div>
-    </section>
 
-    <section class="section" id="supporting-info">
-      <div class="container two-col">
-        <div class="callout">
-          <div class="section-kicker">Supporting info</div>
-          <h2>Now the supporting details are clearly separated.</h2>
+        <div class="cta-wrap">
+          <div class="section-kicker">Next step</div>
+          <h2>Want to see what AI can do for your business?</h2>
           <p class="section-copy">
-            The live demos now sit first, and this lower section explains how the page works, what the agents solve, and how the showroom can expand over time.
+            Try one of the live demos or schedule a consultation to explore how SalTech Solutions can support your customer experience and automation goals.
           </p>
-          <div class="list">
-            <div class="list-item"><span class="check">✓</span><span>Embed your live Voiceflow or website widget directly into each demo area.</span></div>
-            <div class="list-item"><span class="check">✓</span><span>Use each “Launch Demo” button to open a dedicated demo page, popup, or external agent experience.</span></div>
-            <div class="list-item"><span class="check">✓</span><span>Add screenshots, mini workflow diagrams, or a short client-use explanation under each assistant later.</span></div>
-          </div>
-        </div>
-
-        <div class="callout">
-          <div class="section-kicker">Conversion strategy</div>
-          <h2>Let the demos sell the consultation.</h2>
-          <p class="section-copy">
-            Once visitors can see how the agents work, the next strongest move is a clear invitation to discuss a custom build for their own business.
-          </p>
-          <div class="list">
-            <div class="list-item"><span class="check">✓</span><span>Keep “Book a Consultation” visible in the header.</span></div>
-            <div class="list-item"><span class="check">✓</span><span>Link each agent to a short explanation of who it helps and what business problem it solves.</span></div>
-            <div class="list-item"><span class="check">✓</span><span>Later add one success metric or client-style use case beneath each live demo.</span></div>
-          </div>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="index.html#contact">Book a Consultation</a>
-            <a class="btn btn-secondary" href="index.html#features">See Features</a>
+            <a class="btn btn-primary" href="booking-demo.html">Try a Demo</a>
+            <a class="btn btn-secondary" href="index.html#contact">Book Consultation</a>
           </div>
         </div>
       </div>
