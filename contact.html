@@ -3,114 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact SalTech AI</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Contact | SalTech Solutions</title>
 
 <style>
-
-:root{
---bg:#0a0f1f;
---text:#f4f7ff;
---muted:#9aa3b2;
---accent1:#7c3aed;
---accent2:#06b6d4;
-}
-
 body{
+font-family: Arial, Helvetica, sans-serif;
+background:#0b1220;
+color:white;
 margin:0;
-font-family:Inter, sans-serif;
-background:linear-gradient(180deg,#070b16,#0b1224);
-color:var(--text);
+padding:0;
 }
 
 .container{
-max-width:1100px;
-margin:auto;
-padding:80px 20px;
+max-width:900px;
+margin:80px auto;
+padding:40px;
+background:linear-gradient(135deg,#111a33,#0b1220);
+border-radius:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
 h1{
-font-size:56px;
-margin-bottom:12px;
+font-size:40px;
+margin-bottom:10px;
 }
 
 p{
-color:var(--muted);
-line-height:1.7;
-max-width:650px;
+opacity:.8;
+margin-bottom:30px;
 }
 
-.form{
-margin-top:40px;
+form{
 display:flex;
 flex-direction:column;
 gap:16px;
-max-width:700px;
-}
-
-.form-row{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
 }
 
 input, textarea{
-background:rgba(255,255,255,0.04);
-border:1px solid rgba(255,255,255,0.08);
-padding:15px;
-border-radius:12px;
-color:white;
-font-family:inherit;
-font-size:15px;
-}
-
-textarea{
-resize:vertical;
-}
-
-input:focus, textarea:focus{
-outline:none;
-border-color:var(--accent2);
-}
-
-.btn{
-margin-top:8px;
-padding:16px 26px;
-border-radius:999px;
+padding:14px;
+border-radius:8px;
 border:none;
-font-weight:700;
+font-size:16px;
+}
+
+button{
+padding:14px;
+border:none;
+border-radius:10px;
+font-size:16px;
 cursor:pointer;
-background:linear-gradient(135deg,var(--accent1),var(--accent2));
+background:linear-gradient(90deg,#6c63ff,#4dd0e1);
 color:white;
-font-size:15px;
+font-weight:600;
+}
+
+.success{
+display:none;
+text-align:center;
 }
 
 .footer{
-margin-top:100px;
-padding-top:30px;
-border-top:1px solid rgba(255,255,255,0.08);
-display:flex;
-justify-content:space-between;
-color:#7f8aa8;
+margin-top:30px;
 font-size:14px;
+opacity:.7;
+text-align:center;
 }
 
 .footer a{
-color:#9aa3ff;
+color:#7dd3fc;
 text-decoration:none;
-margin-left:14px;
+margin:0 8px;
 }
-
-@media(max-width:700px){
-.form-row{
-grid-template-columns:1fr;
-}
-h1{
-font-size:40px;
-}
-}
-
 </style>
 </head>
 
@@ -118,42 +81,43 @@ font-size:40px;
 
 <div class="container">
 
+<div id="formBox">
 <h1>Book a Consultation</h1>
+<p>Tell us a little about your business and what you’re looking to automate.</p>
 
-<p>
-Tell us about your business and what you'd like to automate.
-We review every message personally and will follow up to schedule a demo
-or consultation tailored to your needs.
-</p>
-
-<form action="https://formspree.io/f/mqeywyqp" method="POST" class="form">
-
-<div class="form-row">
+<form action="https://formspree.io/f/mqeywyqp" method="POST">
 <input type="text" name="name" placeholder="Your Name" required>
-<input type="email" name="email" placeholder="Business Email" required>
+<input type="email" name="email" placeholder="Your Email" required>
+<textarea name="message" placeholder="What would you like help with?" rows="5" required></textarea>
+<button type="submit">Request Consultation</button>
+</form>
 </div>
 
-<input type="text" name="company" placeholder="Business Name (optional)">
-
-<textarea name="message" rows="6"
-placeholder="Example: I run a cleaning company and want help with lead capture and automated booking..."
-required></textarea>
-
-<button type="submit" class="btn">
-Send Message
-</button>
-
-</form>
-
+<div class="success" id="successBox">
+<h1>✅ Request Sent</h1>
+<p>Thank you. We will contact you shortly.</p>
+<br>
+<a href="index.html">
+<button>← Return to Homepage</button>
+</a>
 </div>
 
 <div class="footer">
-<div>© 2026 SalTech AI</div>
-<div>
-<a href="privacy.html">Privacy</a>
-<a href="terms.html">Terms</a>
+<a href="privacy.html">Privacy Policy</a> |
+<a href="terms.html">Terms & Conditions</a>
 </div>
+
 </div>
+
+<script>
+const form = document.querySelector("form");
+form.addEventListener("submit", function(){
+setTimeout(function(){
+document.getElementById("formBox").style.display="none";
+document.getElementById("successBox").style.display="block";
+},600);
+});
+</script>
 
 </body>
 </html>
