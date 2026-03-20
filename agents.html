@@ -85,32 +85,15 @@
       letter-spacing: -0.02em;
     }
 
+    .nav-logo {
+      height: 90px;
+      width: auto;
+      flex-shrink: 0;
+      mix-blend-mode: screen;
+    }
+
     .brand-mark {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      box-shadow: 0 10px 30px rgba(124,58,237,0.35);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .brand-mark::before,
-    .brand-mark::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.32);
-    }
-
-    .brand-mark::before {
-      inset: 9px 8px 18px 18px;
-      transform: rotate(45deg);
-    }
-
-    .brand-mark::after {
-      inset: 18px 18px 8px 8px;
-      transform: rotate(45deg);
+      display: none;
     }
 
     .nav-links {
@@ -489,8 +472,8 @@
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="index.html" aria-label="Sal Tech Solutions home">
-        <span class="brand-mark"></span>
-        <span>Sal Tech Solutions</span>
+        <img src="saltech-logo.png" alt="SalTech AI logo" class="nav-logo">
+        <span>SalTech AI</span>
       </a>
 
       <nav class="nav-links" aria-label="Primary navigation">
@@ -502,7 +485,7 @@
 
       <div class="nav-actions">
         <a class="btn btn-secondary" href="index.html">Back to Homepage</a>
-        <a class="btn btn-primary" href="contact.html">Book a Consultation</a>
+        <a class="btn btn-primary" href="index.html#contact">Book a Consultation</a>
       </div>
     </div>
   </header>
@@ -626,7 +609,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="booking-demo.html">Try a Demo</a>
-            <a class="btn btn-secondary" href="contact.html">Book Consultation</a>
+            <a class="btn btn-secondary" href="index.html#contact">Book Consultation</a>
           </div>
         </div>
       </div>
