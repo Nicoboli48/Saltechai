@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact | SalTech AI</title>
   <meta name="description" content="Book a consultation with SalTech AI and find out how intelligent assistants can help your business." />
@@ -75,7 +72,6 @@
       justify-content: space-between;
       gap: 16px;
       padding: 16px 0;
-      flex-wrap: wrap;
     }
 
     .brand {
@@ -372,6 +368,13 @@
     }
 
     @media (max-width: 760px) {
+      .nav { flex-wrap: nowrap; justify-content: space-between; align-items: center; padding: 10px 0; gap: 8px; }
+      .brand { gap: 8px; min-width: 0; flex-shrink: 1; }
+      .brand span { font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .nav-logo { height: 38px; }
+      .nav-actions { flex-shrink: 0; gap: 6px; }
+      .nav-actions .btn { padding: 0 10px; min-height: 34px; font-size: 0.8rem; white-space: nowrap; }
+      .nav-actions .btn-secondary { display: none; }
       .hero-shell, .form-shell { padding: 22px; border-radius: 26px; }
       h1 { font-size: clamp(2.1rem, 12vw, 3.2rem); }
       .footer-inner { flex-direction: column; }
