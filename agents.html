@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sal Tech Solutions | AI Assistants</title>
   <meta name="description" content="Explore Sal Tech Solutions AI assistants for FAQ support, lead capture, and booking automation." />
@@ -459,8 +456,14 @@
     }
 
     @media (max-width: 760px) {
-      .nav { flex-wrap: wrap; }
+      .nav { flex-wrap: nowrap; justify-content: space-between; align-items: center; padding: 10px 0; gap: 8px; }
       .nav-links { display: none; }
+      .brand { gap: 8px; min-width: 0; flex-shrink: 1; }
+      .brand span { font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .nav-logo { height: 38px; }
+      .nav-actions { flex-shrink: 0; gap: 6px; }
+      .nav-actions .btn { padding: 0 10px; min-height: 34px; font-size: 0.8rem; white-space: nowrap; }
+      .nav-actions .btn-secondary { display: none; }
       .hero-shell { padding: 22px; border-radius: 28px; }
       .assistant-grid {
         grid-template-columns: 1fr;
