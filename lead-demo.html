@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sal Tech Solutions | Lead Assistant Demo</title>
   <meta name="description" content="Try the Sal Tech Solutions Lead Capture Assistant demo." />
@@ -74,7 +71,6 @@
       justify-content: space-between;
       gap: 16px;
       padding: 16px 0;
-      flex-wrap: wrap;
     }
 
     .brand {
@@ -96,7 +92,6 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
     }
 
     .btn {
@@ -307,6 +302,13 @@
     }
 
     @media (max-width: 760px) {
+      .nav { flex-wrap: nowrap; justify-content: space-between; align-items: center; padding: 10px 0; gap: 8px; }
+      .brand { gap: 8px; min-width: 0; flex-shrink: 1; }
+      .brand span { font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .nav-logo { height: 38px; }
+      .nav-actions { flex-shrink: 0; gap: 6px; }
+      .nav-actions .btn { padding: 0 10px; min-height: 34px; font-size: 0.8rem; white-space: nowrap; }
+      .nav-actions .btn-secondary { display: none; }
       .hero-shell, .demo-shell { padding: 20px; border-radius: 26px; }
       h1 { font-size: clamp(2.2rem, 13vw, 3.5rem); }
       .demo-stage { min-height: 520px; padding: 14px; }
