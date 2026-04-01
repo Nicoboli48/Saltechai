@@ -1,8 +1,14 @@
 .vfrc-chat {
   background-color: #0a0a0f !important;
 }
-.vfrc-chat--body {
-  background-color: #12121e !important;
+.vfrc-chat-dialog {
+  background-color: #0a0a0f !important;
+}
+.vfrc-chat-dialog__container {
+  background-color: #0a0a0f !important;
+}
+.vfrc-assistant-info {
+  background-color: #0a0a0f !important;
 }
 .vfrc-header {
   background-color: #1a0533 !important;
