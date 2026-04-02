@@ -26,6 +26,7 @@
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
+      padding-top: 80px;
       font-family: 'Inter', sans-serif;
       color: var(--text);
       background:
@@ -57,8 +58,10 @@
     }
 
     .site-header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       backdrop-filter: blur(16px);
       background: rgba(10, 13, 22, 0.7);
@@ -447,6 +450,9 @@
           target.innerHTML = '';
           target.classList.add('is-live');
           launchState.classList.add('hidden');
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 300);
 
           window.voiceflow.chat.load({
             verify: { projectID: '698e36167476fb8251060c1c' },

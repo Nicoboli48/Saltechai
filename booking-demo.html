@@ -484,6 +484,9 @@
           target.innerHTML = '';
           target.classList.add('is-live');
           launchState.classList.add('hidden');
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 300);
 
           window.voiceflow.chat.load({
             verify: { projectID: '69cb21ce0587bde474ad3e13' },
