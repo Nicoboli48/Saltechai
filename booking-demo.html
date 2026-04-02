@@ -485,7 +485,9 @@
           target.classList.add('is-live');
           launchState.classList.add('hidden');
           setTimeout(() => {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const yOffset = -100;
+            const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
           }, 300);
 
           window.voiceflow.chat.load({
