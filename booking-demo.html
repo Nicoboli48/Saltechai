@@ -485,7 +485,7 @@
           target.classList.add('is-live');
           launchState.classList.add('hidden');
           setTimeout(() => {
-            const yOffset = -100;
+            const yOffset = -160;
             const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({ top: y, behavior: 'smooth' });
           }, 300);
