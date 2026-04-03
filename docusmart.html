@@ -935,7 +935,7 @@
           source: { type: 'base64', media_type: mediaType, data: base64Data }
         };
 
-        const response = await fetch('/api/analyze', {
+        const response = await fetch('/api/analyze.cjs', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contentBlock, fileName: currentFile.name })
