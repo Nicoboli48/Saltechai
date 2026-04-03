@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/analyze.cjs": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}
