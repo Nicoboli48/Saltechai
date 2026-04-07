@@ -654,6 +654,35 @@
       .nav-actions .btn-secondary { display: none; }
     }
 
+    /* SUMMARY TABLE */
+    .summary-table-wrap { margin-bottom: 20px; }
+    .summary-table { width: 100%; border-collapse: collapse; }
+    .summary-table-label {
+      padding: 12px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-2);
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(255,255,255,0.06);
+      width: 35%;
+    }
+    .summary-table-value {
+      padding: 12px 16px;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .summary-table-value.highlight {
+      background: linear-gradient(135deg, #c4b5fd, #67e8f9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.15rem;
+    }
+
     /* MARKDOWN RENDERED STYLES */
     .analysis-content h1, .analysis-content h2, .analysis-content h3 {
       color: var(--text);
@@ -781,19 +810,27 @@
               <div class="results-badge">✓ DocuSmart reviewed</div>
             </div>
 
-            <div class="summary-grid" id="summaryGrid">
-              <div class="summary-card">
-                <div class="summary-label">Vendor / Supplier</div>
-                <div class="summary-value" id="summaryVendor">—</div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-label">Document Date</div>
-                <div class="summary-value" id="summaryDate">—</div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-label">Total Amount</div>
-                <div class="summary-value amount" id="summaryAmount">—</div>
-              </div>
+            <div class="summary-table-wrap">
+              <table class="summary-table">
+                <tbody>
+                  <tr>
+                    <td class="summary-table-label">Vendor / Supplier</td>
+                    <td class="summary-table-value" id="summaryVendor">—</td>
+                  </tr>
+                  <tr>
+                    <td class="summary-table-label">Document Date</td>
+                    <td class="summary-table-value" id="summaryDate">—</td>
+                  </tr>
+                  <tr>
+                    <td class="summary-table-label">Total Amount</td>
+                    <td class="summary-table-value highlight" id="summaryAmount">—</td>
+                  </tr>
+                  <tr>
+                    <td class="summary-table-label">Document Name</td>
+                    <td class="summary-table-value" id="summaryFileName">—</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
             <div class="analysis-box">
@@ -988,6 +1025,7 @@
         document.getElementById('summaryVendor').textContent = parsed.vendor;
         document.getElementById('summaryDate').textContent = parsed.date;
         document.getElementById('summaryAmount').textContent = parsed.amount;
+        document.getElementById('summaryFileName').textContent = currentFile.name;
 
         // Render markdown
         if (typeof marked !== 'undefined') {
@@ -1026,14 +1064,66 @@
     });
 
     document.getElementById('downloadResultBtn').addEventListener('click', () => {
-      const content = document.getElementById('analysisContent').textContent;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'DocuSmart-Report.txt';
-      a.click();
-      URL.revokeObjectURL(url);
+      const vendor = document.getElementById('summaryVendor').textContent;
+      const date = document.getElementById('summaryDate').textContent;
+      const amount = document.getElementById('summaryAmount').textContent;
+      const fileName = document.getElementById('summaryFileName').textContent;
+      const analysisHTML = document.getElementById('analysisContent').innerHTML;
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>DocuSmart Report</title>
+          <style>
+            body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; color: #1a1a2e; font-size: 14px; }
+            .header { border-bottom: 3px solid #7c3aed; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+            .header h1 { margin: 0; font-size: 22px; color: #7c3aed; }
+            .header p { margin: 4px 0 0; font-size: 12px; color: #666; }
+            .summary-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+            .summary-table td { padding: 10px 14px; border: 1px solid #e0e0e0; }
+            .summary-table .label { background: #f5f0ff; font-weight: 600; color: #5b21b6; width: 35%; }
+            .summary-table .highlight { font-weight: 700; color: #7c3aed; font-size: 16px; }
+            h2 { color: #5b21b6; font-size: 15px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; margin-top: 24px; }
+            table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+            th { background: #f5f0ff; color: #5b21b6; padding: 8px 10px; text-align: left; border: 1px solid #ddd; }
+            td { padding: 8px 10px; border: 1px solid #ddd; }
+            tr:nth-child(even) td { background: #fafafa; }
+            ul, ol { padding-left: 20px; }
+            li { margin: 4px 0; }
+            strong { color: #1a1a2e; }
+            hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
+            .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; text-align: center; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div>
+              <h1>DocuSmart Report</h1>
+              <p>by SalTech AI &nbsp;|&nbsp; saltechai.com</p>
+            </div>
+            <div style="text-align:right; font-size:12px; color:#666;">
+              Generated: ${new Date().toLocaleDateString()}<br>
+              Document: ${fileName}
+            </div>
+          </div>
+
+          <table class="summary-table">
+            <tr><td class="label">Vendor / Supplier</td><td>${vendor}</td></tr>
+            <tr><td class="label">Document Date</td><td>${date}</td></tr>
+            <tr><td class="label">Total Amount</td><td class="highlight">${amount}</td></tr>
+          </table>
+
+          <h2>Full Analysis</h2>
+          ${analysisHTML}
+
+          <div class="footer">Generated by DocuSmart by SalTech AI &nbsp;|&nbsp; saltechai.com</div>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      setTimeout(() => { printWindow.print(); }, 500);
     });
   </script>
 </body>
