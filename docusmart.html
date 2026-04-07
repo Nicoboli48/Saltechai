@@ -801,14 +801,10 @@
               <div class="analysis-content" id="analysisContent"></div>
             </div>
 
-            <div class="flags-box" id="flagsBox">
-              <h3>⚠ Items to Review</h3>
-              <div class="flags-content" id="flagsContent"></div>
-            </div>
-
             <div class="result-actions">
               <button class="btn btn-primary" id="newAnalysisBtn">+ Analyze Another Document</button>
               <button class="btn btn-secondary" id="copyResultBtn">Copy Summary</button>
+              <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download Report</button>
             </div>
           </div>
 
@@ -992,10 +988,16 @@
         document.getElementById('summaryVendor').textContent = parsed.vendor;
         document.getElementById('summaryDate').textContent = parsed.date;
         document.getElementById('summaryAmount').textContent = parsed.amount;
-        document.getElementById('analysisContent').innerHTML = marked.parse(resultText);
+
+        // Render markdown
+        if (typeof marked !== 'undefined') {
+          document.getElementById('analysisContent').innerHTML = marked.parse(resultText);
+        } else {
+          document.getElementById('analysisContent').textContent = resultText;
+        }
 
         const flagsBox = document.getElementById('flagsBox');
-        flagsBox.classList.remove('visible');
+        if (flagsBox) flagsBox.classList.remove('visible');
 
         loadingState.classList.remove('visible');
         resultsSection.classList.add('visible');
@@ -1021,6 +1023,17 @@
         copyResultBtn.textContent = '✓ Copied!';
         setTimeout(() => copyResultBtn.textContent = 'Copy Summary', 2000);
       });
+    });
+
+    document.getElementById('downloadResultBtn').addEventListener('click', () => {
+      const content = document.getElementById('analysisContent').textContent;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'DocuSmart-Report.txt';
+      a.click();
+      URL.revokeObjectURL(url);
     });
   </script>
 </body>
