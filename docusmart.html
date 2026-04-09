@@ -663,6 +663,11 @@
     .analysis-content th{background:rgba(124,58,237,0.15);color:#c4b5fd;padding:10px 12px;text-align:left;font-weight:600;border:1px solid rgba(124,58,237,0.2);}
     .analysis-content td{padding:9px 12px;border:1px solid rgba(255,255,255,0.07);color:var(--muted);}
     .analysis-content tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+    .download-dropdown-wrap{position:relative;}
+    .download-menu{display:none;position:absolute;bottom:calc(100% + 8px);right:0;background:rgba(15,20,35,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:6px;min-width:180px;box-shadow:0 20px 40px rgba(0,0,0,0.4);z-index:10;}
+    .download-menu.visible{display:block;}
+    .download-option{display:block;width:100%;padding:10px 14px;background:none;border:none;color:var(--muted);font-size:0.9rem;font-family:inherit;text-align:left;cursor:pointer;border-radius:8px;transition:0.2s ease;}
+    .download-option:hover{background:rgba(124,58,237,0.15);color:var(--text);}
   </style>
 </head>
 <body>
@@ -782,6 +787,14 @@
             <div class="result-actions">
               <button class="btn btn-primary" id="newAnalysisBtn">+ Analyze Another Document</button>
               <button class="btn btn-secondary" id="copyResultBtn">Copy Summary</button>
+              <div class="download-dropdown-wrap">
+                <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download ▾</button>
+                <div class="download-menu" id="downloadMenu">
+                  <button class="download-option" id="downloadPDF">📄 PDF Report</button>
+                  <button class="download-option" id="downloadExcel">📊 Excel (.xls)</button>
+                  <button class="download-option" id="downloadCSV">📋 CSV</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -993,6 +1006,90 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
         copyResultBtn.textContent = '✓ Copied!';
         setTimeout(() => copyResultBtn.textContent = 'Copy Summary', 2000);
       });
+    });
+    // Download dropdown toggle
+    document.getElementById('downloadResultBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('downloadMenu').classList.toggle('visible');
+    });
+    document.addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+    });
+
+    function getReportData() {
+      return {
+        vendor: document.getElementById('summaryVendor').textContent,
+        date: document.getElementById('summaryDate').textContent,
+        amount: document.getElementById('summaryAmount').textContent,
+        fileName: document.getElementById('summaryFileName') ? document.getElementById('summaryFileName').textContent : '',
+        analysisHTML: document.getElementById('analysisContent').innerHTML,
+        analysisText: document.getElementById('analysisContent').innerText
+      };
+    }
+
+    // PDF Download
+    document.getElementById('downloadPDF').addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+      const { vendor, date, amount, fileName, analysisHTML } = getReportData();
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`<!DOCTYPE html><html><head><title>DocuSmart Report</title><style>
+        body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#1a1a2e;font-size:14px;}
+        .header{border-bottom:3px solid #7c3aed;padding-bottom:16px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;}
+        .header h1{margin:0;font-size:22px;color:#7c3aed;}.header p{margin:4px 0 0;font-size:12px;color:#666;}
+        h1,h2,h3{color:#5b21b6;}h1{font-size:18px;border-bottom:2px solid #e0e0e0;padding-bottom:8px;margin-top:24px;}
+        h2{font-size:15px;border-bottom:1px solid #e0e0e0;padding-bottom:6px;margin-top:20px;}
+        table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+        th{background:#f5f0ff;color:#5b21b6;padding:8px 10px;text-align:left;border:1px solid #ddd;}
+        td{padding:8px 10px;border:1px solid #ddd;}tr:nth-child(even) td{background:#fafafa;}
+        ul,ol{padding-left:20px;}li{margin:4px 0;}strong{color:#1a1a2e;}p{line-height:1.6;margin:8px 0;}
+        hr{border:none;border-top:1px solid #e0e0e0;margin:16px 0;}
+        .footer{margin-top:32px;padding-top:12px;border-top:1px solid #e0e0e0;font-size:11px;color:#999;text-align:center;}
+      </style></head><body>
+        <div class="header">
+          <div><h1 style="border:none;margin:0;font-size:22px;">DocuSmart Report</h1><p>by SalTech AI | saltechai.com</p></div>
+          <div style="text-align:right;font-size:12px;color:#666;">Generated: ${new Date().toLocaleDateString()}<br>Document: ${fileName}</div>
+        </div>
+        ${analysisHTML}
+        <div class="footer">Generated by DocuSmart by SalTech AI | saltechai.com</div>
+      </body></html>`);
+      printWindow.document.close();
+      setTimeout(() => { printWindow.print(); }, 500);
+    });
+
+    // Excel Download (CSV format that opens in Excel)
+    document.getElementById('downloadExcel').addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+      const { vendor, date, amount, fileName, analysisText } = getReportData();
+      const rows = [
+        ['DocuSmart Report'],['Generated', new Date().toLocaleDateString()],
+        ['Document', fileName],['Vendor', vendor],['Date', date],['Total Amount', amount],
+        [''],['Full Analysis'],
+        ...analysisText.split('\n').map(line => [line])
+      ];
+      const csv = rows.map(r => r.map(cell => '"' + (cell||'').replace(/"/g,'""') + '"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'application/vnd.ms-excel' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'DocuSmart-Report.xls'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // CSV Download
+    document.getElementById('downloadCSV').addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+      const { vendor, date, amount, fileName, analysisText } = getReportData();
+      const rows = [
+        ['DocuSmart Report'],['Generated', new Date().toLocaleDateString()],
+        ['Document', fileName],['Vendor', vendor],['Date', date],['Total Amount', amount],
+        [''],['Full Analysis'],
+        ...analysisText.split('\n').map(line => [line])
+      ];
+      const csv = rows.map(r => r.map(cell => '"' + (cell||'').replace(/"/g,'""') + '"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'DocuSmart-Report.csv'; a.click();
+      URL.revokeObjectURL(url);
     });
   </script>
 </body>
