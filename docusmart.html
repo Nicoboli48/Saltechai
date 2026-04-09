@@ -1006,18 +1006,21 @@
     }
 
     function parseResults(text) {
-      const clean = text.replace(/\*\*/g, '').replace(/\*/g, '');
+      const vendorMatch = text.match(/^META_VENDOR:\s*(.+)$/m);
+      const dateMatch   = text.match(/^META_DATE:\s*(.+)$/m);
+      const amountMatch = text.match(/^META_TOTAL:\s*(.+)$/m);
 
-      const vendorMatch = clean.match(/vendor[:\s]+([^\n]+)/i);
       const vendor = vendorMatch ? vendorMatch[1].trim() : '—';
+      const date   = dateMatch   ? dateMatch[1].trim()   : '—';
+      const amount = amountMatch ? amountMatch[1].trim()  : '—';
 
-      const dateMatch = clean.match(/(?:^|\n)\s*date[:\s]+([^\n]+)/im);
-      const date = dateMatch ? dateMatch[1].trim() : '—';
+      // Strip the META lines from the displayed text
+      const fullText = text.replace(/^META_VENDOR:.*\n?/m, '')
+                           .replace(/^META_DATE:.*\n?/m, '')
+                           .replace(/^META_TOTAL:.*\n?/m, '')
+                           .trim();
 
-      const amountMatch = clean.match(/total[:\s]+\$?([\d,]+\.?\d*)/i);
-      const amount = amountMatch ? '$' + amountMatch[1].trim() : '—';
-
-      return { vendor, date, amount, fullText: text };
+      return { vendor, date, amount, fullText };
     }
 
     analyzeBtn.addEventListener('click', async () => {
@@ -1085,7 +1088,7 @@
         document.getElementById('summaryVendor').textContent = parsed.vendor.replace(/\*\*/g,'').replace(/\*/g,'').trim();
         document.getElementById('summaryDate').textContent = parsed.date.replace(/\*\*/g,'').replace(/\*/g,'').trim();
         document.getElementById('summaryAmount').textContent = parsed.amount;
-        document.getElementById('analysisContent').innerHTML = typeof marked !== 'undefined' ? marked.parse(resultText) : resultText;
+        document.getElementById('analysisContent').innerHTML = typeof marked !== 'undefined' ? marked.parse(parsed.fullText) : parsed.fullText;
 
 const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.classList.remove('visible');
 
