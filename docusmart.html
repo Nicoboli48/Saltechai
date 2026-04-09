@@ -8,8 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <style>
     :root {
       --bg: #0a0d16;
@@ -207,35 +205,7 @@
       font-size: 1.05rem;
       line-height: 1.75;
       max-width: 52ch;
-      margin: 0 auto 24px;
-    }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin-bottom: 32px;
-    }
-
-    .hero-stat {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-
-    .hero-stat-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: rgba(124,58,237,0.15);
-      border: 1px solid rgba(124,58,237,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
+      margin: 0 auto 32px;
     }
 
     /* UPLOAD SECTION */
@@ -682,104 +652,6 @@
       .upload-card { padding: 24px; border-radius: 24px; }
       .nav-actions .btn-secondary { display: none; }
     }
-
-    /* DOWNLOAD DROPDOWN */
-    .download-dropdown-wrap { position: relative; }
-    .download-menu {
-      display: none;
-      position: absolute;
-      bottom: calc(100% + 8px);
-      right: 0;
-      background: rgba(15, 20, 35, 0.98);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 6px;
-      min-width: 180px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      z-index: 10;
-    }
-    .download-menu.visible { display: block; }
-    .download-option {
-      display: block;
-      width: 100%;
-      padding: 10px 14px;
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-family: inherit;
-      text-align: left;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: 0.2s ease;
-    }
-    .download-option:hover { background: rgba(124,58,237,0.15); color: var(--text); }
-
-    /* SUMMARY TABLE */
-    .summary-table-wrap { margin-bottom: 20px; }
-    .summary-table { width: 100%; border-collapse: collapse; }
-    .summary-table-label {
-      padding: 12px 16px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted-2);
-      background: rgba(124,58,237,0.08);
-      border: 1px solid rgba(255,255,255,0.06);
-      width: 35%;
-    }
-    .summary-table-value {
-      padding: 12px 16px;
-      font-size: 0.97rem;
-      font-weight: 600;
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .summary-table-value.highlight {
-      background: linear-gradient(135deg, #c4b5fd, #67e8f9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 1.15rem;
-    }
-
-    /* MARKDOWN RENDERED STYLES */
-    .analysis-content h1, .analysis-content h2, .analysis-content h3 {
-      color: var(--text);
-      margin: 16px 0 8px;
-      letter-spacing: -0.02em;
-    }
-    .analysis-content h1 { font-size: 1.3rem; }
-    .analysis-content h2 { font-size: 1.1rem; }
-    .analysis-content h3 { font-size: 1rem; }
-    .analysis-content p { margin: 8px 0; line-height: 1.7; }
-    .analysis-content strong { color: var(--text); }
-    .analysis-content hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 16px 0; }
-    .analysis-content ul, .analysis-content ol { padding-left: 20px; margin: 8px 0; }
-    .analysis-content li { margin: 6px 0; line-height: 1.65; }
-    .analysis-content table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0;
-      font-size: 0.88rem;
-    }
-    .analysis-content th {
-      background: rgba(124,58,237,0.15);
-      color: #c4b5fd;
-      padding: 10px 12px;
-      text-align: left;
-      font-weight: 600;
-      border: 1px solid rgba(124,58,237,0.2);
-    }
-    .analysis-content td {
-      padding: 9px 12px;
-      border: 1px solid rgba(255,255,255,0.07);
-      color: var(--muted);
-    }
-    .analysis-content tr:nth-child(even) td {
-      background: rgba(255,255,255,0.02);
-    }
   </style>
 </head>
 <body>
@@ -814,12 +686,6 @@
         <p class="hero-copy">
           Drop in an invoice, receipt, or bill and DocuSmart instantly reads it, extracts the key details, and flags anything that needs your attention.
         </p>
-        <div class="hero-stats">
-          <div class="hero-stat"><span class="hero-stat-icon">⚡</span> Analyzes in seconds</div>
-          <div class="hero-stat"><span class="hero-stat-icon">🔒</span> Secure &amp; private</div>
-          <div class="hero-stat"><span class="hero-stat-icon">📄</span> 6 file formats</div>
-          <div class="hero-stat"><span class="hero-stat-icon">⬇</span> 3 download options</div>
-        </div>
       </div>
     </section>
 
@@ -829,17 +695,15 @@
 
           <!-- Drop Zone -->
           <div class="drop-zone" id="dropZone">
-            <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.docx" />
+            <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" />
             <div class="drop-icon">📄</div>
             <div class="drop-title">Drop your document here</div>
             <div class="drop-sub">or click to browse your files</div>
             <div class="drop-formats">
               <span class="format-pill">PDF</span>
-              <span class="format-pill">DOCX</span>
-              <span class="format-pill">XLSX</span>
-              <span class="format-pill">CSV</span>
               <span class="format-pill">JPG</span>
               <span class="format-pill">PNG</span>
+              <span class="format-pill">WEBP</span>
             </div>
           </div>
 
@@ -879,27 +743,19 @@
               <div class="results-badge">✓ DocuSmart reviewed</div>
             </div>
 
-            <div class="summary-table-wrap">
-              <table class="summary-table">
-                <tbody>
-                  <tr>
-                    <td class="summary-table-label">Vendor / Supplier</td>
-                    <td class="summary-table-value" id="summaryVendor">—</td>
-                  </tr>
-                  <tr>
-                    <td class="summary-table-label">Document Date</td>
-                    <td class="summary-table-value" id="summaryDate">—</td>
-                  </tr>
-                  <tr>
-                    <td class="summary-table-label">Total Amount</td>
-                    <td class="summary-table-value highlight" id="summaryAmount">—</td>
-                  </tr>
-                  <tr>
-                    <td class="summary-table-label">Document Name</td>
-                    <td class="summary-table-value" id="summaryFileName">—</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="summary-grid" id="summaryGrid">
+              <div class="summary-card">
+                <div class="summary-label">Vendor / Supplier</div>
+                <div class="summary-value" id="summaryVendor">—</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Document Date</div>
+                <div class="summary-value" id="summaryDate">—</div>
+              </div>
+              <div class="summary-card">
+                <div class="summary-label">Total Amount</div>
+                <div class="summary-value amount" id="summaryAmount">—</div>
+              </div>
             </div>
 
             <div class="analysis-box">
@@ -907,17 +763,14 @@
               <div class="analysis-content" id="analysisContent"></div>
             </div>
 
+            <div class="flags-box" id="flagsBox">
+              <h3>⚠ Items to Review</h3>
+              <div class="flags-content" id="flagsContent"></div>
+            </div>
+
             <div class="result-actions">
               <button class="btn btn-primary" id="newAnalysisBtn">+ Analyze Another Document</button>
               <button class="btn btn-secondary" id="copyResultBtn">Copy Summary</button>
-              <div class="download-dropdown-wrap">
-                <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download ▾</button>
-                <div class="download-menu" id="downloadMenu">
-                  <button class="download-option" id="downloadPDF">📄 PDF Report</button>
-                  <button class="download-option" id="downloadExcel">📊 Excel (.xlsx)</button>
-                  <button class="download-option" id="downloadCSV">📋 CSV</button>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -1040,22 +893,23 @@
     }
 
     function parseResults(text) {
-      // Strip markdown bold markers for parsing
-      const clean = text.replace(/\*\*/g, '');
-
       // Extract vendor
-      const vendorMatch = clean.match(/(?:vendor|supplier|from|company)[:\s]+([^\n]+)/i);
+      const vendorMatch = text.match(/(?:vendor|supplier|from|company)[:\s]+([^\n]+)/i);
       const vendor = vendorMatch ? vendorMatch[1].trim() : '—';
 
       // Extract date
-      const dateMatch = clean.match(/(?:date|invoice date|dated)[:\s]+([^\n]+)/i);
+      const dateMatch = text.match(/(?:date|invoice date|dated)[:\s]+([^\n]+)/i);
       const date = dateMatch ? dateMatch[1].trim() : '—';
 
       // Extract amount
-      const amountMatch = clean.match(/(?:total|amount due|grand total|total amount)[:\s]+\$?([\d,]+\.?\d*)/i);
+      const amountMatch = text.match(/(?:total|amount due|grand total|total amount)[:\s]+\$?([\d,]+\.?\d*)/i);
       const amount = amountMatch ? '$' + amountMatch[1].trim() : '—';
 
-      return { vendor, date, amount, fullText: text };
+      // Extract flags
+      const flagsMatch = text.match(/(?:flags?|items? to review|concerns?|warnings?)[:\s]+([\s\S]+?)(?:\n\n|$)/i);
+      const flags = flagsMatch ? flagsMatch[1].trim() : null;
+
+      return { vendor, date, amount, flags, fullText: text };
     }
 
     analyzeBtn.addEventListener('click', async () => {
@@ -1068,26 +922,18 @@
       errorBox.classList.remove('visible');
 
       try {
-        let contentBlock;
-        const fname = currentFile.name.toLowerCase();
-        const isDocx = fname.endsWith('.docx');
+        const base64Data = await fileToBase64(currentFile);
+        const mediaType = getMediaType(currentFile);
 
-        if (isDocx) {
-          const arrayBuffer = await currentFile.arrayBuffer();
-          const result = await mammoth.extractRawText({ arrayBuffer });
-          contentBlock = { type: 'text', text: result.value };
-        } else {
-          const base64Data = await fileToBase64(currentFile);
-          const mediaType = getMediaType(currentFile);
-          const isPDF = mediaType === 'application/pdf';
-          contentBlock = isPDF ? {
-            type: 'document',
-            source: { type: 'base64', media_type: 'application/pdf', data: base64Data }
-          } : {
-            type: 'image',
-            source: { type: 'base64', media_type: mediaType, data: base64Data }
-          };
-        }
+        const isPDF = mediaType === 'application/pdf';
+
+        const contentBlock = isPDF ? {
+          type: 'document',
+          source: { type: 'base64', media_type: 'application/pdf', data: base64Data }
+        } : {
+          type: 'image',
+          source: { type: 'base64', media_type: mediaType, data: base64Data }
+        };
 
         const response = await fetch('https://docusmart-api.suv4run.workers.dev', {
           method: 'POST',
@@ -1105,20 +951,18 @@
 
         const parsed = parseResults(resultText);
 
-        document.getElementById('summaryVendor').textContent = parsed.vendor.replace(/\*\*/g, '').replace(/^\*+|\*+$/g, '').trim();
-        document.getElementById('summaryDate').textContent = parsed.date.replace(/\*\*/g, '').replace(/^\*+|\*+$/g, '').trim();
+        document.getElementById('summaryVendor').textContent = parsed.vendor;
+        document.getElementById('summaryDate').textContent = parsed.date;
         document.getElementById('summaryAmount').textContent = parsed.amount;
-        document.getElementById('summaryFileName').textContent = currentFile.name;
-
-        // Render markdown
-        if (typeof marked !== 'undefined') {
-          document.getElementById('analysisContent').innerHTML = marked.parse(resultText);
-        } else {
-          document.getElementById('analysisContent').textContent = resultText;
-        }
+        document.getElementById('analysisContent').textContent = resultText;
 
         const flagsBox = document.getElementById('flagsBox');
-        if (flagsBox) flagsBox.classList.remove('visible');
+        if (parsed.flags) {
+          document.getElementById('flagsContent').textContent = parsed.flags;
+          flagsBox.classList.add('visible');
+        } else {
+          flagsBox.classList.remove('visible');
+        }
 
         loadingState.classList.remove('visible');
         resultsSection.classList.add('visible');
@@ -1144,141 +988,6 @@
         copyResultBtn.textContent = '✓ Copied!';
         setTimeout(() => copyResultBtn.textContent = 'Copy Summary', 2000);
       });
-    });
-
-    // Download dropdown toggle
-    document.getElementById('downloadResultBtn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.getElementById('downloadMenu').classList.toggle('visible');
-    });
-    document.addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-    });
-
-    function getReportData() {
-      return {
-        vendor: document.getElementById('summaryVendor').textContent,
-        date: document.getElementById('summaryDate').textContent,
-        amount: document.getElementById('summaryAmount').textContent,
-        fileName: document.getElementById('summaryFileName').textContent,
-        analysisHTML: document.getElementById('analysisContent').innerHTML,
-        analysisText: document.getElementById('analysisContent').innerText
-      };
-    }
-
-    // PDF Download
-    document.getElementById('downloadPDF').addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-      const { vendor, date, amount, fileName, analysisHTML } = getReportData();
-
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>DocuSmart Report</title>
-          <style>
-            body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; color: #1a1a2e; font-size: 14px; }
-            .header { border-bottom: 3px solid #7c3aed; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
-            .header h1 { margin: 0; font-size: 22px; color: #7c3aed; }
-            .header p { margin: 4px 0 0; font-size: 12px; color: #666; }
-            .summary-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-            .summary-table td { padding: 10px 14px; border: 1px solid #e0e0e0; }
-            .summary-table .label { background: #f5f0ff; font-weight: 600; color: #5b21b6; width: 35%; }
-            .summary-table .highlight { font-weight: 700; color: #7c3aed; font-size: 16px; }
-            h2 { color: #5b21b6; font-size: 15px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; margin-top: 24px; }
-            table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-            th { background: #f5f0ff; color: #5b21b6; padding: 8px 10px; text-align: left; border: 1px solid #ddd; }
-            td { padding: 8px 10px; border: 1px solid #ddd; }
-            tr:nth-child(even) td { background: #fafafa; }
-            ul, ol { padding-left: 20px; }
-            li { margin: 4px 0; }
-            strong { color: #1a1a2e; }
-            hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
-            .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 11px; color: #999; text-align: center; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <div>
-              <h1>DocuSmart Report</h1>
-              <p>by SalTech AI &nbsp;|&nbsp; saltechai.com</p>
-            </div>
-            <div style="text-align:right; font-size:12px; color:#666;">
-              Generated: ${new Date().toLocaleDateString()}<br>
-              Document: ${fileName}
-            </div>
-          </div>
-
-          <table class="summary-table">
-            <tr><td class="label">Vendor / Supplier</td><td>${vendor}</td></tr>
-            <tr><td class="label">Document Date</td><td>${date}</td></tr>
-            <tr><td class="label">Total Amount</td><td class="highlight">${amount}</td></tr>
-          </table>
-
-          <h2>Full Analysis</h2>
-          ${analysisHTML}
-
-          <div class="footer">Generated by DocuSmart by SalTech AI &nbsp;|&nbsp; saltechai.com</div>
-        </body>
-        </html>
-      `);
-      printWindow.document.close();
-      setTimeout(() => { printWindow.print(); }, 500);
-    });
-
-    // Excel Download - uses CSV format (opens in Excel)
-    document.getElementById('downloadExcel').addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-      const { vendor, date, amount, fileName, analysisText } = getReportData();
-      const rows = [
-        ['DocuSmart Report'],
-        ['Generated', new Date().toLocaleDateString()],
-        ['Document', fileName],
-        ['Vendor', vendor],
-        ['Date', date],
-        ['Total Amount', amount],
-        [''],
-        ['Full Analysis'],
-        ...analysisText.split('\n').map(line => [line])
-      ];
-      const csv = rows.map(r => r.map(cell => '"' + (cell||'').replace(/"/g, '""') + '"').join(',')).join('\n');
-      const blob = new Blob([csv], { type: 'application/vnd.ms-excel' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'DocuSmart-Report.xls';
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-
-    // CSV Download
-    document.getElementById('downloadCSV').addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-      const { vendor, date, amount, fileName, analysisText } = getReportData();
-
-      const rows = [
-        ['DocuSmart Report'],
-        ['Generated', new Date().toLocaleDateString()],
-        ['Document', fileName],
-        ['Vendor', vendor],
-        ['Date', date],
-        ['Total Amount', amount],
-        [''],
-        ['Full Analysis'],
-        ...analysisText.split('
-').map(line => [line])
-      ];
-
-      const csv = rows.map(r => r.map(cell => `"${(cell||'').replace(/"/g,'""')}"`).join(',')).join('
-');
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'DocuSmart-Report.csv';
-      a.click();
-      URL.revokeObjectURL(url);
     });
   </script>
 </body>
