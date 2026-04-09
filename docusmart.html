@@ -663,11 +663,7 @@
     .analysis-content th{background:rgba(124,58,237,0.15);color:#c4b5fd;padding:10px 12px;text-align:left;font-weight:600;border:1px solid rgba(124,58,237,0.2);}
     .analysis-content td{padding:9px 12px;border:1px solid rgba(255,255,255,0.07);color:var(--muted);}
     .analysis-content tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
-    .download-dropdown-wrap{position:relative;}
-    .download-menu{display:none;position:absolute;bottom:calc(100% + 8px);right:0;background:rgba(15,20,35,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:6px;min-width:180px;box-shadow:0 20px 40px rgba(0,0,0,0.4);z-index:10;}
-    .download-menu.visible{display:block;}
-    .download-option{display:block;width:100%;padding:10px 14px;background:none;border:none;color:var(--muted);font-size:0.9rem;font-family:inherit;text-align:left;cursor:pointer;border-radius:8px;transition:0.2s ease;}
-    .download-option:hover{background:rgba(124,58,237,0.15);color:var(--text);}
+
   </style>
 </head>
 <body>
@@ -787,14 +783,7 @@
             <div class="result-actions">
               <button class="btn btn-primary" id="newAnalysisBtn">+ Analyze Another Document</button>
               <button class="btn btn-secondary" id="copyResultBtn">Copy Summary</button>
-              <div class="download-dropdown-wrap">
-                <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download ▾</button>
-                <div class="download-menu" id="downloadMenu">
-                  <button class="download-option" id="downloadPDF">📄 PDF Report</button>
-                  <button class="download-option" id="downloadExcel">📊 Excel (.xls)</button>
-                  <button class="download-option" id="downloadCSV">📋 CSV</button>
-                </div>
-              </div>
+              <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download PDF</button>
             </div>
           </div>
 
@@ -1007,30 +996,12 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
         setTimeout(() => copyResultBtn.textContent = 'Copy Summary', 2000);
       });
     });
-    // Download dropdown toggle
-    document.getElementById('downloadResultBtn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.getElementById('downloadMenu').classList.toggle('visible');
-    });
-    document.addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-    });
-
-    function getReportData() {
-      return {
-        vendor: document.getElementById('summaryVendor').textContent,
-        date: document.getElementById('summaryDate').textContent,
-        amount: document.getElementById('summaryAmount').textContent,
-        fileName: document.getElementById('summaryFileName') ? document.getElementById('summaryFileName').textContent : '',
-        analysisHTML: document.getElementById('analysisContent').innerHTML,
-        analysisText: document.getElementById('analysisContent').innerText
-      };
-    }
-
-    // PDF Download
-    document.getElementById('downloadPDF').addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-      const { vendor, date, amount, fileName, analysisHTML } = getReportData();
+    document.getElementById('downloadResultBtn').addEventListener('click', () => {
+      const vendor = document.getElementById('summaryVendor').textContent;
+      const date = document.getElementById('summaryDate').textContent;
+      const amount = document.getElementById('summaryAmount').textContent;
+      const fileName = document.getElementById('summaryFileName') ? document.getElementById('summaryFileName').textContent : '';
+      const analysisHTML = document.getElementById('analysisContent').innerHTML;
       const printWindow = window.open('', '_blank');
       printWindow.document.write(`<!DOCTYPE html><html><head><title>DocuSmart Report</title><style>
         body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;color:#1a1a2e;font-size:14px;}
@@ -1055,42 +1026,7 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
       printWindow.document.close();
       setTimeout(() => { printWindow.print(); }, 500);
     });
-
-    // Excel Download (CSV format that opens in Excel)
-    document.getElementById('downloadExcel').addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-      const { vendor, date, amount, fileName, analysisText } = getReportData();
-      const rows = [
-        ['DocuSmart Report'],['Generated', new Date().toLocaleDateString()],
-        ['Document', fileName],['Vendor', vendor],['Date', date],['Total Amount', amount],
-        [''],['Full Analysis'],
-        ...analysisText.split('\n').map(line => [line])
-      ];
-      const csv = rows.map(r => r.map(cell => '"' + (cell||'').replace(/"/g,'""') + '"').join(',')).join('\n');
-      const blob = new Blob([csv], { type: 'application/vnd.ms-excel' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'DocuSmart-Report.xls'; a.click();
-      URL.revokeObjectURL(url);
-    });
-
-    // CSV Download
-    document.getElementById('downloadCSV').addEventListener('click', () => {
-      document.getElementById('downloadMenu').classList.remove('visible');
-      const { vendor, date, amount, fileName, analysisText } = getReportData();
-      const rows = [
-        ['DocuSmart Report'],['Generated', new Date().toLocaleDateString()],
-        ['Document', fileName],['Vendor', vendor],['Date', date],['Total Amount', amount],
-        [''],['Full Analysis'],
-        ...analysisText.split('\n').map(line => [line])
-      ];
-      const csv = rows.map(r => r.map(cell => '"' + (cell||'').replace(/"/g,'""') + '"').join(',')).join('\n');
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'DocuSmart-Report.csv'; a.click();
-      URL.revokeObjectURL(url);
-    });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
 </html>
