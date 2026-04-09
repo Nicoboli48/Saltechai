@@ -1006,23 +1006,18 @@
     }
 
     function parseResults(text) {
-      // Extract vendor
-      const vendorMatch = text.match(/(?:vendor|supplier|from|company)[:\s]+([^\n]+)/i);
+      const clean = text.replace(/\*\*/g, '').replace(/\*/g, '');
+
+      const vendorMatch = clean.match(/vendor[:\s]+([^\n]+)/i);
       const vendor = vendorMatch ? vendorMatch[1].trim() : '—';
 
-      // Extract date
-      const dateMatch = text.match(/(?:date|invoice date|dated)[:\s]+([^\n]+)/i);
+      const dateMatch = clean.match(/(?:^|\n)\s*date[:\s]+([^\n]+)/im);
       const date = dateMatch ? dateMatch[1].trim() : '—';
 
-      // Extract amount
-      const amountMatch = text.match(/(?:total|amount due|grand total|total amount)[:\s]+\$?([\d,]+\.?\d*)/i);
+      const amountMatch = clean.match(/total[:\s]+\$?([\d,]+\.?\d*)/i);
       const amount = amountMatch ? '$' + amountMatch[1].trim() : '—';
 
-      // Extract flags
-      const flagsMatch = text.match(/(?:flags?|items? to review|concerns?|warnings?)[:\s]+([\s\S]+?)(?:\n\n|$)/i);
-      const flags = flagsMatch ? flagsMatch[1].trim() : null;
-
-      return { vendor, date, amount, flags, fullText: text };
+      return { vendor, date, amount, fullText: text };
     }
 
     analyzeBtn.addEventListener('click', async () => {
@@ -1087,8 +1082,8 @@
 
         const parsed = parseResults(resultText);
 
-        document.getElementById('summaryVendor').textContent = parsed.vendor;
-        document.getElementById('summaryDate').textContent = parsed.date;
+        document.getElementById('summaryVendor').textContent = parsed.vendor.replace(/\*\*/g,'').replace(/\*/g,'').trim();
+        document.getElementById('summaryDate').textContent = parsed.date.replace(/\*\*/g,'').replace(/\*/g,'').trim();
         document.getElementById('summaryAmount').textContent = parsed.amount;
         document.getElementById('analysisContent').innerHTML = typeof marked !== 'undefined' ? marked.parse(resultText) : resultText;
 
