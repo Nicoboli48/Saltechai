@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     :root {
       --bg: #0a0d16;
@@ -207,7 +208,35 @@
       font-size: 1.05rem;
       line-height: 1.75;
       max-width: 52ch;
-      margin: 0 auto 32px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .hero-stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .hero-stat-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
     }
 
     /* UPLOAD SECTION */
@@ -655,6 +684,38 @@
       .nav-actions .btn-secondary { display: none; }
     }
 
+    /* DOWNLOAD DROPDOWN */
+    .download-dropdown-wrap { position: relative; }
+    .download-menu {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      right: 0;
+      background: rgba(15, 20, 35, 0.98);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 6px;
+      min-width: 180px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      z-index: 10;
+    }
+    .download-menu.visible { display: block; }
+    .download-option {
+      display: block;
+      width: 100%;
+      padding: 10px 14px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.2s ease;
+    }
+    .download-option:hover { background: rgba(124,58,237,0.15); color: var(--text); }
+
     /* SUMMARY TABLE */
     .summary-table-wrap { margin-bottom: 20px; }
     .summary-table { width: 100%; border-collapse: collapse; }
@@ -754,6 +815,12 @@
         <p class="hero-copy">
           Drop in an invoice, receipt, or bill and DocuSmart instantly reads it, extracts the key details, and flags anything that needs your attention.
         </p>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="hero-stat-icon">⚡</span> Analyzes in seconds</div>
+          <div class="hero-stat"><span class="hero-stat-icon">🔒</span> Secure &amp; private</div>
+          <div class="hero-stat"><span class="hero-stat-icon">📄</span> 6 file formats</div>
+          <div class="hero-stat"><span class="hero-stat-icon">⬇</span> 3 download options</div>
+        </div>
       </div>
     </section>
 
@@ -763,16 +830,17 @@
 
           <!-- Drop Zone -->
           <div class="drop-zone" id="dropZone">
-            <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.docx" />
+            <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,.xlsx,.xls,.csv" />
             <div class="drop-icon">📄</div>
             <div class="drop-title">Drop your document here</div>
             <div class="drop-sub">or click to browse your files</div>
             <div class="drop-formats">
               <span class="format-pill">PDF</span>
               <span class="format-pill">DOCX</span>
+              <span class="format-pill">XLSX</span>
+              <span class="format-pill">CSV</span>
               <span class="format-pill">JPG</span>
               <span class="format-pill">PNG</span>
-              <span class="format-pill">WEBP</span>
             </div>
           </div>
 
@@ -843,7 +911,14 @@
             <div class="result-actions">
               <button class="btn btn-primary" id="newAnalysisBtn">+ Analyze Another Document</button>
               <button class="btn btn-secondary" id="copyResultBtn">Copy Summary</button>
-              <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download Report</button>
+              <div class="download-dropdown-wrap">
+                <button class="btn btn-secondary" id="downloadResultBtn">⬇ Download ▾</button>
+                <div class="download-menu" id="downloadMenu">
+                  <button class="download-option" id="downloadPDF">📄 PDF Report</button>
+                  <button class="download-option" id="downloadExcel">📊 Excel (.xlsx)</button>
+                  <button class="download-option" id="downloadCSV">📋 CSV</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -995,17 +1070,25 @@
 
       try {
         let contentBlock;
-        const isDocx = currentFile.name.toLowerCase().endsWith('.docx');
+        const fname = currentFile.name.toLowerCase();
+        const isDocx = fname.endsWith('.docx');
+        const isExcel = fname.endsWith('.xlsx') || fname.endsWith('.xls');
+        const isCSVFile = fname.endsWith('.csv');
 
         if (isDocx) {
-          // Convert docx to text using mammoth
           const arrayBuffer = await currentFile.arrayBuffer();
           const result = await mammoth.extractRawText({ arrayBuffer });
-          const docxText = result.value;
-          contentBlock = {
-            type: 'text',
-            text: docxText
-          };
+          contentBlock = { type: 'text', text: result.value };
+        } else if (isExcel || isCSVFile) {
+          const arrayBuffer = await currentFile.arrayBuffer();
+          const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+          let text = '';
+          workbook.SheetNames.forEach(sheetName => {
+            text += `Sheet: ${sheetName}\n`;
+            text += XLSX.utils.sheet_to_csv(workbook.Sheets[sheetName]);
+            text += '\n\n';
+          });
+          contentBlock = { type: 'text', text };
         } else {
           const base64Data = await fileToBase64(currentFile);
           const mediaType = getMediaType(currentFile);
@@ -1076,12 +1159,30 @@
       });
     });
 
-    document.getElementById('downloadResultBtn').addEventListener('click', () => {
-      const vendor = document.getElementById('summaryVendor').textContent;
-      const date = document.getElementById('summaryDate').textContent;
-      const amount = document.getElementById('summaryAmount').textContent;
-      const fileName = document.getElementById('summaryFileName').textContent;
-      const analysisHTML = document.getElementById('analysisContent').innerHTML;
+    // Download dropdown toggle
+    document.getElementById('downloadResultBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('downloadMenu').classList.toggle('visible');
+    });
+    document.addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+    });
+
+    function getReportData() {
+      return {
+        vendor: document.getElementById('summaryVendor').textContent,
+        date: document.getElementById('summaryDate').textContent,
+        amount: document.getElementById('summaryAmount').textContent,
+        fileName: document.getElementById('summaryFileName').textContent,
+        analysisHTML: document.getElementById('analysisContent').innerHTML,
+        analysisText: document.getElementById('analysisContent').innerText
+      };
+    }
+
+    // PDF Download
+    document.getElementById('downloadPDF').addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+      const { vendor, date, amount, fileName, analysisHTML } = getReportData();
 
       const printWindow = window.open('', '_blank');
       printWindow.document.write(`
@@ -1137,6 +1238,64 @@
       `);
       printWindow.document.close();
       setTimeout(() => { printWindow.print(); }, 500);
+    });
+
+    // Excel Download
+    document.getElementById('downloadExcel').addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+      const { vendor, date, amount, fileName, analysisText } = getReportData();
+
+      const wb = XLSX.utils.book_new();
+
+      // Summary sheet
+      const summaryData = [
+        ['DocuSmart Report', ''],
+        ['Generated by SalTech AI', new Date().toLocaleDateString()],
+        ['Document', fileName],
+        [''],
+        ['Vendor / Supplier', vendor],
+        ['Document Date', date],
+        ['Total Amount', amount],
+      ];
+      const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
+      XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+
+      // Analysis sheet
+      const analysisRows = analysisText.split('
+').map(line => [line]);
+      const ws2 = XLSX.utils.aoa_to_sheet(analysisRows);
+      XLSX.utils.book_append_sheet(wb, ws2, 'Full Analysis');
+
+      XLSX.writeFile(wb, 'DocuSmart-Report.xlsx');
+    });
+
+    // CSV Download
+    document.getElementById('downloadCSV').addEventListener('click', () => {
+      document.getElementById('downloadMenu').classList.remove('visible');
+      const { vendor, date, amount, fileName, analysisText } = getReportData();
+
+      const rows = [
+        ['DocuSmart Report'],
+        ['Generated', new Date().toLocaleDateString()],
+        ['Document', fileName],
+        ['Vendor', vendor],
+        ['Date', date],
+        ['Total Amount', amount],
+        [''],
+        ['Full Analysis'],
+        ...analysisText.split('
+').map(line => [line])
+      ];
+
+      const csv = rows.map(r => r.map(cell => `"${(cell||'').replace(/"/g,'""')}"`).join(',')).join('
+');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'DocuSmart-Report.csv';
+      a.click();
+      URL.revokeObjectURL(url);
     });
   </script>
 </body>
