@@ -1287,36 +1287,31 @@
 
     document.getElementById('downloadWordBtn').addEventListener('click', async () => {
       const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
-              AlignmentType, HeadingLevel, BorderStyle, WidthType, ShadingType,
-              LevelFormat } = docx;
+              AlignmentType, BorderStyle, WidthType, ShadingType } = docx;
 
       const client   = document.getElementById('summaryVendor').textContent;
       const service  = document.getElementById('summaryService').textContent;
       const date     = document.getElementById('summaryDate').textContent;
       const amount   = document.getElementById('summaryAmount').textContent;
       const business = document.getElementById('fieldBusiness').value.trim() || 'Your Business';
-      const fullText = document.getElementById('analysisContent').innerText;
 
-      // Parse sections from the rendered text
-      const lines = fullText.split('\n').filter(l => l.trim());
-
-      const amber = 'C05500';
+      const amber    = 'C05500';
       const darkBrown = '92400E';
+      const cellBorder = { style: BorderStyle.SINGLE, size: 1, color: 'E0E0E0' };
+      const cellBorders = { top: cellBorder, bottom: cellBorder, left: cellBorder, right: cellBorder };
+      const cellMargins = { top: 80, bottom: 80, left: 120, right: 120 };
 
-      const headerBorder = { bottom: { style: BorderStyle.SINGLE, size: 8, color: amber, space: 4 } };
-
-      // Build document children
       const children = [];
 
-      // Header — business name
+      // ── HEADER ──────────────────────────────────────────────
       children.push(new Paragraph({
-        border: headerBorder,
+        border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: amber, space: 4 } },
         spacing: { after: 80 },
         children: [new TextRun({ text: business, bold: true, size: 48, color: '1a1a2e', font: 'Arial' })]
       }));
       children.push(new Paragraph({
         spacing: { after: 40 },
-        children: [new TextRun({ text: `Powered by ProposalSmart | saltechai.com`, size: 18, color: '888888', font: 'Arial' })]
+        children: [new TextRun({ text: 'Powered by ProposalSmart | saltechai.com', size: 18, color: '888888', font: 'Arial' })]
       }));
       children.push(new Paragraph({
         spacing: { after: 20 },
@@ -1324,115 +1319,146 @@
       }));
       children.push(new Paragraph({ spacing: { after: 160 }, children: [] }));
 
-      // Summary table
-      const summaryBorder = { style: BorderStyle.SINGLE, size: 1, color: 'E0E0E0' };
-      const cellBorders = { top: summaryBorder, bottom: summaryBorder, left: summaryBorder, right: summaryBorder };
-      const cellMargins = { top: 80, bottom: 80, left: 120, right: 120 };
-
+      // ── SUMMARY CARDS TABLE ─────────────────────────────────
       children.push(new Table({
         width: { size: 9360, type: WidthType.DXA },
         columnWidths: [2340, 2340, 2340, 2340],
-        rows: [
-          new TableRow({
+        rows: [new TableRow({
+          children: [
+            ['CLIENT NAME', client, false],
+            ['SERVICE TYPE', service, false],
+            ['PROPOSAL DATE', date, false],
+            ['TOTAL PRICE', amount, true],
+          ].map(([label, value, isPrice]) => new TableCell({
+            borders: cellBorders,
+            width: { size: 2340, type: WidthType.DXA },
+            margins: cellMargins,
+            shading: { fill: 'FFFBEB', type: ShadingType.CLEAR },
             children: [
-              ['CLIENT NAME', client],
-              ['SERVICE TYPE', service],
-              ['PROPOSAL DATE', date],
-              ['TOTAL PRICE', amount],
-            ].map(([label, value]) => new TableCell({
-              borders: cellBorders,
-              width: { size: 2340, type: WidthType.DXA },
-              margins: cellMargins,
-              shading: { fill: 'FFFBEB', type: ShadingType.CLEAR },
-              children: [
-                new Paragraph({ children: [new TextRun({ text: label, size: 16, color: '888888', font: 'Arial' })] }),
-                new Paragraph({ children: [new TextRun({ text: value, bold: true, size: 22, color: label === 'TOTAL PRICE' ? amber : '1a1a2e', font: 'Arial' })] }),
-              ]
-            }))
-          })
-        ]
+              new Paragraph({ children: [new TextRun({ text: label, size: 16, color: '888888', font: 'Arial' })] }),
+              new Paragraph({ children: [new TextRun({ text: value, bold: true, size: 22, color: isPrice ? amber : '1a1a2e', font: 'Arial' })] }),
+            ]
+          }))
+        })]
       }));
       children.push(new Paragraph({ spacing: { after: 240 }, children: [] }));
 
-      // Parse and add body content line by line
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed) continue;
+      // ── PARSE HTML CONTENT ──────────────────────────────────
+      // Parse the rendered HTML element directly for accurate structure
+      const contentEl = document.getElementById('analysisContent');
+      const sectionHeadings = ['Proposal Overview','Scope of Work','Pricing','Payment Terms','Timeline','Terms & Conditions','Next Steps','Acceptance & Signature'];
 
-        // Section headings
-        if (/^(Proposal Overview|Scope of Work|Pricing|Payment Terms|Timeline|Terms & Conditions|Next Steps|Acceptance & Signature)/.test(trimmed)) {
+      function parseNode(node) {
+        const tag = node.nodeName.toLowerCase();
+
+        if (tag === 'h1' || tag === 'h2' || tag === 'h3') {
+          const text = node.textContent.trim();
           children.push(new Paragraph({
             spacing: { before: 240, after: 120 },
             border: { bottom: { style: BorderStyle.SINGLE, size: 1, color: 'E0E0E0', space: 4 } },
-            children: [new TextRun({ text: trimmed, bold: true, size: 28, color: darkBrown, font: 'Arial' })]
+            children: [new TextRun({ text, bold: true, size: 28, color: darkBrown, font: 'Arial' })]
           }));
         }
-        // Table rows (contain |)
-        else if (trimmed.startsWith('|') && !trimmed.match(/^[\|\s\-]+$/)) {
-          const cells = trimmed.split('|').map(c => c.trim()).filter(c => c);
-          const isHeader = trimmed.includes('Deliverable') || trimmed.includes('Item') || trimmed.includes('Clause') || trimmed.includes('#');
-          const colCount = cells.length;
+
+        else if (tag === 'table') {
+          const rows = Array.from(node.querySelectorAll('tr'));
+          if (!rows.length) return;
+          const colCount = rows[0].querySelectorAll('th, td').length;
           const colWidth = Math.floor(9360 / colCount);
+
           children.push(new Table({
             width: { size: 9360, type: WidthType.DXA },
             columnWidths: Array(colCount).fill(colWidth),
-            rows: [new TableRow({
-              children: cells.map(cell => new TableCell({
-                borders: cellBorders,
-                width: { size: colWidth, type: WidthType.DXA },
-                margins: cellMargins,
-                shading: { fill: isHeader ? 'FFF8E7' : 'FFFFFF', type: ShadingType.CLEAR },
-                children: [new Paragraph({
-                  children: [new TextRun({ text: cell, bold: isHeader, size: 20, color: isHeader ? darkBrown : '1a1a2e', font: 'Arial' })]
-                })]
-              }))
+            rows: rows.map((row, rowIdx) => {
+              const cells = Array.from(row.querySelectorAll('th, td'));
+              const isHeader = rowIdx === 0;
+              return new TableRow({
+                children: cells.map(cell => new TableCell({
+                  borders: cellBorders,
+                  width: { size: colWidth, type: WidthType.DXA },
+                  margins: cellMargins,
+                  shading: { fill: isHeader ? 'FFF8E7' : 'FFFFFF', type: ShadingType.CLEAR },
+                  children: [new Paragraph({
+                    children: [new TextRun({
+                      text: cell.textContent.trim(),
+                      bold: isHeader,
+                      size: 20,
+                      color: isHeader ? darkBrown : '1a1a2e',
+                      font: 'Arial'
+                    })]
+                  })]
+                }))
+              });
+            })
+          }));
+          children.push(new Paragraph({ spacing: { after: 120 }, children: [] }));
+        }
+
+        else if (tag === 'ul' || tag === 'ol') {
+          Array.from(node.querySelectorAll('li')).forEach(li => {
+            const text = li.textContent.trim();
+            // Check for bold label pattern like "Day 1-2: something"
+            const boldMatch = text.match(/^([^:]+:)\s*(.+)$/);
+            if (boldMatch && li.querySelector('strong')) {
+              children.push(new Paragraph({
+                spacing: { after: 80 },
+                indent: { left: 480, hanging: 240 },
+                children: [
+                  new TextRun({ text: '• ', color: amber, font: 'Arial', size: 22 }),
+                  new TextRun({ text: boldMatch[1] + ' ', bold: true, size: 22, color: '1a1a2e', font: 'Arial' }),
+                  new TextRun({ text: boldMatch[2], size: 22, color: '333333', font: 'Arial' })
+                ]
+              }));
+            } else {
+              children.push(new Paragraph({
+                spacing: { after: 80 },
+                indent: { left: 480, hanging: 240 },
+                children: [
+                  new TextRun({ text: '• ', color: amber, font: 'Arial', size: 22 }),
+                  new TextRun({ text, size: 22, color: '333333', font: 'Arial' })
+                ]
+              }));
+            }
+          });
+        }
+
+        else if (tag === 'p') {
+          const text = node.textContent.trim();
+          if (!text) return;
+          const isBold = node.querySelector('strong') && node.textContent === node.querySelector('strong')?.textContent;
+          const isSignature = text.includes('______');
+          children.push(new Paragraph({
+            spacing: { before: isSignature ? 160 : 40, after: 80 },
+            children: [new TextRun({
+              text,
+              bold: isBold || text.startsWith('By signing') || text.startsWith('Prepared by') || text.startsWith('Total Investment'),
+              size: 22,
+              color: '1a1a2e',
+              font: 'Arial'
             })]
           }));
         }
-        // Bullet points
-        else if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*')) {
-          const bulletText = trimmed.replace(/^[•\-\*]\s*/, '');
-          children.push(new Paragraph({
-            spacing: { after: 80 },
-            indent: { left: 480, hanging: 240 },
-            children: [
-              new TextRun({ text: '• ', color: amber, font: 'Arial', size: 22 }),
-              new TextRun({ text: bulletText, size: 22, color: '1a1a2e', font: 'Arial' })
-            ]
-          }));
+
+        else if (tag === 'hr') {
+          children.push(new Paragraph({ spacing: { after: 80 }, children: [] }));
         }
-        // Signature lines
-        else if (trimmed.includes('______')) {
-          children.push(new Paragraph({
-            spacing: { before: 160, after: 80 },
-            children: [new TextRun({ text: trimmed, size: 22, color: '1a1a2e', font: 'Arial' })]
-          }));
-        }
-        // Bold text (Total Investment etc)
-        else if (trimmed.startsWith('Total Investment') || trimmed.startsWith('Prepared by') || trimmed.startsWith('By signing')) {
-          children.push(new Paragraph({
-            spacing: { before: 80, after: 80 },
-            children: [new TextRun({ text: trimmed, bold: true, size: 22, color: '1a1a2e', font: 'Arial' })]
-          }));
-        }
-        // Regular paragraph
-        else {
-          children.push(new Paragraph({
-            spacing: { after: 80 },
-            children: [new TextRun({ text: trimmed, size: 22, color: '333333', font: 'Arial' })]
-          }));
+
+        else if (node.children && node.children.length) {
+          Array.from(node.children).forEach(parseNode);
         }
       }
 
-      // Footer note
+      Array.from(contentEl.children).forEach(parseNode);
+
+      // ── FOOTER ──────────────────────────────────────────────
       children.push(new Paragraph({ spacing: { before: 320 }, children: [] }));
       children.push(new Paragraph({
         alignment: AlignmentType.CENTER,
         children: [new TextRun({ text: 'Powered by ProposalSmart by SalTech AI | saltechai.com', size: 18, color: '999999', font: 'Arial' })]
       }));
 
+      // ── BUILD & DOWNLOAD ────────────────────────────────────
       const doc = new Document({
-        numbering: { config: [] },
         styles: { default: { document: { run: { font: 'Arial', size: 22 } } } },
         sections: [{
           properties: {
@@ -1449,7 +1475,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${business.replace(/\s+/g,'-')}-Proposal-${client.replace(/\s+/g,'-')}.docx`;
+      a.download = `${business.replace(/\s+/g, '-')}-Proposal-${client.replace(/\s+/g, '-')}.docx`;
       a.click();
       URL.revokeObjectURL(url);
     });
