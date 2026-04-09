@@ -1006,19 +1006,21 @@
     }
 
     function parseResults(text) {
-      const vendorMatch = text.match(/^META_PARTIES:\s*(.+)$/m);
-      const dateMatch   = text.match(/^META_DATE:\s*(.+)$/m);
-      const amountMatch = text.match(/^META_VALUE:\s*(.+)$/m);
+      // Match META lines anywhere in text, even if bold (**META_PARTIES:**)
+      const vendorMatch = text.match(/\*{0,2}META_PARTIES:\*{0,2}\s*(.+?)(?:\n|$)/);
+      const dateMatch   = text.match(/\*{0,2}META_DATE:\*{0,2}\s*(.+?)(?:\n|$)/);
+      const amountMatch = text.match(/\*{0,2}META_VALUE:\*{0,2}\s*(.+?)(?:\n|$)/);
 
-      const vendor = vendorMatch ? vendorMatch[1].trim() : '—';
-      const date   = dateMatch   ? dateMatch[1].trim()   : '—';
-      const amount = amountMatch ? amountMatch[1].trim()  : '—';
+      const vendor = vendorMatch ? vendorMatch[1].replace(/\*\*/g,'').trim() : '—';
+      const date   = dateMatch   ? dateMatch[1].replace(/\*\*/g,'').trim()   : '—';
+      const amount = amountMatch ? amountMatch[1].replace(/\*\*/g,'').trim()  : '—';
 
-      // Strip the META lines from the displayed text
-      const fullText = text.replace(/^META_PARTIES:.*\n?/m, '')
-                           .replace(/^META_DATE:.*\n?/m, '')
-                           .replace(/^META_VALUE:.*\n?/m, '')
-                           .trim();
+      // Strip all META lines from the displayed text (with or without bold markdown)
+      const fullText = text
+        .replace(/\*{0,2}META_PARTIES:\*{0,2}.*(\n|$)/g, '')
+        .replace(/\*{0,2}META_DATE:\*{0,2}.*(\n|$)/g, '')
+        .replace(/\*{0,2}META_VALUE:\*{0,2}.*(\n|$)/g, '')
+        .trim();
 
       return { vendor, date, amount, fullText };
     }
