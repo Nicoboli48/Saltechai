@@ -855,18 +855,52 @@
 
           <!-- FILE MODE -->
           <div id="fileMode" style="display:none;">
+
+            <!-- What to include instructions -->
+            <div style="background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.25);border-radius:14px;padding:16px 20px;margin-bottom:20px;">
+              <div style="font-size:0.85rem;font-weight:700;color:#fde68a;margin-bottom:10px;letter-spacing:0.03em;">📋 What to include in your file</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start;">
+                  <span style="color:#fbbf24;flex-shrink:0;">✦</span>
+                  <span><strong style="color:var(--text);">Client name</strong> — who you're sending this to</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start;">
+                  <span style="color:#fbbf24;flex-shrink:0;">✦</span>
+                  <span><strong style="color:var(--text);">Your business name</strong> — who is sending it</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start;">
+                  <span style="color:#fbbf24;flex-shrink:0;">✦</span>
+                  <span><strong style="color:var(--text);">Service type</strong> — what you're offering</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start;">
+                  <span style="color:#fbbf24;flex-shrink:0;">✦</span>
+                  <span><strong style="color:var(--text);">Price</strong> — setup fee, monthly rate, or total</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start;">
+                  <span style="color:#fbbf24;flex-shrink:0;">✦</span>
+                  <span><strong style="color:var(--text);">Scope of work</strong> — what you'll deliver</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start;">
+                  <span style="color:#fbbf24;flex-shrink:0;">✦</span>
+                  <span><strong style="color:var(--text);">Payment terms</strong> — optional, e.g. 50% upfront</span>
+                </div>
+              </div>
+              <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(217,119,6,0.2);font-size:0.8rem;color:var(--muted-2);">
+                💡 <em>Don't worry about formatting — just write your notes naturally. Even a rough email draft or photo of handwritten notes works!</em>
+              </div>
+            </div>
+
             <div class="drop-zone" id="dropZone">
               <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,.xlsx,.xls,.csv" />
               <div class="drop-icon">📝</div>
               <div class="drop-title">Drop your notes or brief here</div>
-              <div class="drop-sub">Upload any document and AI will turn it into a proposal</div>
+              <div class="drop-sub">or click to browse — AI will turn it into a full proposal</div>
               <div class="drop-formats">
                 <span class="format-pill">PDF</span>
                 <span class="format-pill">DOCX</span>
-                <span class="format-pill">XLSX</span>
-                <span class="format-pill">CSV</span>
                 <span class="format-pill">JPG</span>
                 <span class="format-pill">PNG</span>
+                <span class="format-pill">CSV</span>
               </div>
             </div>
             <div class="file-preview" id="filePreview">
