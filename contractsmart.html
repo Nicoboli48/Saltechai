@@ -1026,9 +1026,53 @@
       return { vendor, date, amount, fullText };
     }
 
-    analyzeBtn.addEventListener('click', async () => {
-      if (!currentFile) return;
 
+    // ── USAGE LIMIT SYSTEM ──
+    const TOOL_KEY = 'saltechai_contractsmart';
+    const MAX_USES = 2;
+    const MAX_DOWNLOADS = 2;
+
+    function getUsage() {
+      try {
+        return JSON.parse(localStorage.getItem(TOOL_KEY) || '{"analyses":0,"downloads":0}');
+      } catch(e) { return {"analyses":0,"downloads":0}; }
+    }
+
+    function saveUsage(usage) {
+      try { localStorage.setItem(TOOL_KEY, JSON.stringify(usage)); } catch(e) {}
+    }
+
+    function showLimitModal(type) {
+      const existing = document.getElementById('limitModal');
+      if (existing) existing.remove();
+      const msg = type === 'analyse'
+        ? "You\'ve used your 2 free analyses for this tool."
+        : "You\'ve used your 2 free downloads for this tool.";
+      const modal = document.createElement('div');
+      modal.id = 'limitModal';
+      modal.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);';
+      modal.innerHTML = `
+        <div style="background:#111729;border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:36px;max-width:420px;width:90%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+          <div style="font-size:2.2rem;margin-bottom:16px;">🔒</div>
+          <h2 style="margin:0 0 12px;font-family:Inter,sans-serif;color:#f5f7ff;font-size:1.4rem;letter-spacing:-0.03em;">Free Trial Complete</h2>
+          <p style="margin:0 0 24px;color:#aab2c8;font-family:Inter,sans-serif;line-height:1.7;">${msg}<br><br>Get in touch with SalTech AI to discuss full access and how these tools can work for your business.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <a href="contact.html" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;background:linear-gradient(135deg,#7c3aed,#06b6d4);color:white;font-weight:600;font-family:Inter,sans-serif;text-decoration:none;">Contact SalTech →</a>
+            <button onclick="document.getElementById('limitModal').remove()" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#f5f7ff;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;">Close</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+        analyzeBtn.addEventListener('click', async () => {
+      if (!currentFile) return;
+      // Check analyse limit
+      const usage = getUsage();
+      if (usage.analyses >= MAX_USES) { showLimitModal('analyse'); return; }
+
+      // Increment analyse count
+      const usageNow = getUsage(); usageNow.analyses++; saveUsage(usageNow);
       analyzeBtn.disabled = true;
       btnText.textContent = 'Analyzing...';
       loadingState.classList.add('visible');
@@ -1121,6 +1165,9 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
       });
     });
     document.getElementById('downloadResultBtn').addEventListener('click', () => {
+            const dlUsage = getUsage();
+      if (dlUsage.downloads >= MAX_DOWNLOADS) { showLimitModal('download'); return; }
+      dlUsage.downloads++; saveUsage(dlUsage);
       const vendor = document.getElementById('summaryVendor').textContent;
       const date = document.getElementById('summaryDate').textContent;
       const amount = document.getElementById('summaryAmount').textContent;
