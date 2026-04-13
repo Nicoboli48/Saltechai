@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sal Tech Solutions | AI Assistants</title>
-  <meta name="description" content="Explore Sal Tech Solutions AI assistants for FAQ support, lead capture, and booking automation." />
+  <title>Sal Tech Solutions | Smart Suite</title>
+  <meta name="description" content="The SalTech Smart Suite — AI-powered document tools for small businesses. Analyze invoices, decode contracts, and generate professional proposals in seconds." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,6 +22,10 @@
       --accent-3: #ec4899;
       --success: #22c55e;
       --warning: #f59e0b;
+      /* Smart Suite signature accents */
+      --teal:   #06b6d4;
+      --amber:  #f59e0b;
+      --purple: #7c3aed;
       --shadow: 0 20px 60px rgba(0,0,0,0.34);
       --max: 1180px;
     }
@@ -33,8 +37,8 @@
       font-family: 'Inter', sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(124,58,237,0.16), transparent 28%),
-        radial-gradient(circle at top right, rgba(6,182,212,0.14), transparent 24%),
+        radial-gradient(circle at top left, rgba(6,182,212,0.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(124,58,237,0.12), transparent 24%),
         linear-gradient(180deg, #090c15 0%, #0a0d16 55%, #070a12 100%);
       min-height: 100vh;
       overflow-x: hidden;
@@ -60,6 +64,7 @@
       margin: 0 auto;
     }
 
+    /* ── NAV ── */
     .site-header {
       position: sticky;
       top: 0;
@@ -92,10 +97,6 @@
       mix-blend-mode: screen;
     }
 
-    .brand-mark {
-      display: none;
-    }
-
     .nav-links {
       display: flex;
       align-items: center;
@@ -125,12 +126,13 @@
       font-weight: 600;
       transition: 0.25s ease;
       cursor: pointer;
+      font-size: 0.95rem;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      background: linear-gradient(135deg, var(--teal), var(--accent-1));
       color: white;
-      box-shadow: 0 12px 30px rgba(124,58,237,0.28);
+      box-shadow: 0 12px 30px rgba(6,182,212,0.24);
     }
 
     .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.07); }
@@ -146,6 +148,7 @@
       transform: translateY(-1px);
     }
 
+    /* ── HERO ── */
     .hero {
       padding: 54px 0 30px;
     }
@@ -166,7 +169,7 @@
       inset: auto auto -120px -120px;
       width: 280px;
       height: 280px;
-      background: radial-gradient(circle, rgba(124,58,237,0.18), transparent 65%);
+      background: radial-gradient(circle, rgba(6,182,212,0.18), transparent 65%);
       pointer-events: none;
     }
 
@@ -182,9 +185,9 @@
       align-items: center;
       gap: 10px;
       font-size: 0.88rem;
-      color: #d9c7ff;
-      background: rgba(124,58,237,0.14);
-      border: 1px solid rgba(124,58,237,0.24);
+      color: #a5f3fc;
+      background: rgba(6,182,212,0.12);
+      border: 1px solid rgba(6,182,212,0.26);
       border-radius: 999px;
       padding: 8px 12px;
       margin-bottom: 18px;
@@ -194,8 +197,8 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
-      box-shadow: 0 0 18px rgba(236,72,153,0.65);
+      background: linear-gradient(135deg, var(--teal), #67e8f9);
+      box-shadow: 0 0 18px rgba(6,182,212,0.7);
     }
 
     h1 {
@@ -206,7 +209,7 @@
     }
 
     .gradient-text {
-      background: linear-gradient(135deg, #ffffff 20%, #d7dfff 56%, #7dd3fc 100%);
+      background: linear-gradient(135deg, #ffffff 20%, #d7dfff 56%, #67e8f9 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -268,9 +271,10 @@
       border-radius: 999px;
       margin-top: 8px;
       flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+      background: linear-gradient(135deg, var(--teal), var(--accent-1));
     }
 
+    /* ── SECTION ── */
     .section {
       padding: 18px 0 40px;
     }
@@ -284,7 +288,7 @@
     }
 
     .section-kicker {
-      color: #c4b5fd;
+      color: #67e8f9;
       font-size: 0.87rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
@@ -303,7 +307,8 @@
       line-height: 1.75;
     }
 
-    .assistant-grid {
+    /* ── TOOL GRID ── */
+    .tool-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
@@ -320,15 +325,41 @@
       display: flex;
       flex-direction: column;
       min-height: 100%;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
-    .card::after {
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Per-tool bottom accent lines */
+    .card-docusmart::after {
       content: "";
       position: absolute;
       inset: auto auto 0 0;
       width: 100%;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent-3), var(--accent-2), transparent 70%);
+      background: linear-gradient(90deg, var(--teal), #67e8f9, transparent 70%);
+      opacity: 0.9;
+    }
+
+    .card-contractsmart::after {
+      content: "";
+      position: absolute;
+      inset: auto auto 0 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), #fcd34d, transparent 70%);
+      opacity: 0.9;
+    }
+
+    .card-proposalsmart::after {
+      content: "";
+      position: absolute;
+      inset: auto auto 0 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), #a78bfa, transparent 70%);
       opacity: 0.9;
     }
 
@@ -340,17 +371,33 @@
       margin-bottom: 16px;
     }
 
+    /* Per-tool icon backgrounds */
     .card-icon {
       width: 52px;
       height: 52px;
       border-radius: 16px;
       display: grid;
       place-items: center;
-      background: rgba(124,58,237,0.14);
-      border: 1px solid rgba(124,58,237,0.28);
-      color: #ddd6fe;
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       flex-shrink: 0;
+    }
+
+    .icon-teal {
+      background: rgba(6,182,212,0.14);
+      border: 1px solid rgba(6,182,212,0.3);
+      color: #67e8f9;
+    }
+
+    .icon-amber {
+      background: rgba(245,158,11,0.14);
+      border: 1px solid rgba(245,158,11,0.3);
+      color: #fcd34d;
+    }
+
+    .icon-purple {
+      background: rgba(124,58,237,0.14);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: #c4b5fd;
     }
 
     .badge {
@@ -417,6 +464,29 @@
       padding-top: 8px;
     }
 
+    /* Per-tool launch buttons */
+    .btn-teal {
+      background: linear-gradient(135deg, var(--teal), #0891b2);
+      color: white;
+      box-shadow: 0 10px 28px rgba(6,182,212,0.28);
+    }
+    .btn-teal:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+    .btn-amber {
+      background: linear-gradient(135deg, var(--amber), #d97706);
+      color: white;
+      box-shadow: 0 10px 28px rgba(245,158,11,0.28);
+    }
+    .btn-amber:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+    .btn-purple {
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      color: white;
+      box-shadow: 0 10px 28px rgba(124,58,237,0.28);
+    }
+    .btn-purple:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+    /* ── CTA ── */
     .cta-wrap {
       margin-top: 24px;
       padding: 30px;
@@ -429,6 +499,7 @@
       box-shadow: var(--shadow);
     }
 
+    /* ── FOOTER ── */
     .footer {
       padding: 30px 0 48px;
       color: var(--muted-2);
@@ -444,12 +515,11 @@
       border-top: 1px solid rgba(255,255,255,0.08);
     }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 1080px) {
-      .hero-grid,
-      .assistant-grid {
+      .tool-grid {
         grid-template-columns: 1fr 1fr;
       }
-
       .hero-grid {
         grid-template-columns: 1fr;
       }
@@ -465,16 +535,15 @@
       .nav-actions .btn { padding: 0 10px; min-height: 34px; font-size: 0.8rem; white-space: nowrap; }
       .nav-actions .btn-secondary { display: none; }
       .hero-shell { padding: 22px; border-radius: 28px; }
-      .assistant-grid {
-        grid-template-columns: 1fr;
-      }
+      .tool-grid { grid-template-columns: 1fr; }
       h1 { font-size: clamp(2.2rem, 13vw, 3.5rem); }
-      .section-head { align-items: start; }
+      .section-head { align-items: start; flex-direction: column; }
       .footer-inner { flex-direction: column; }
     }
   </style>
 </head>
 <body>
+
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="index.html" aria-label="Sal Tech Solutions home">
@@ -484,8 +553,8 @@
 
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="index.html#features">Features</a>
-        <a class="is-active" href="agents.html">Agents</a>
-        <a href="smart-suite.html">Smart Suite</a>
+        <a href="agents.html">Agents</a>
+        <a class="is-active" href="smart-suite.html">Smart Suite</a>
         <a href="whysaltech.html">Why SalTech</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -504,33 +573,33 @@
           <div>
             <div class="eyebrow">
               <span class="eyebrow-dot"></span>
-              AI assistants built for real business workflows
+              AI-powered tools built for small business intelligence
             </div>
 
             <h1>
-              <span class="gradient-text">Meet Your AI Assistants</span><br>
-              built to support growth, speed, and better customer response.
+              <span class="gradient-text">The SalTech Smart Suite</span><br>
+              document tools that work as hard as you do.
             </h1>
 
             <p class="hero-copy">
-              Explore how Sal Tech Solutions uses intelligent assistants to answer questions, capture leads, and guide visitors toward real business action.
+              Stop wasting time on paperwork. The Smart Suite gives small service businesses instant AI analysis of invoices, contracts, and proposals — so you spend less time reading and more time doing.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="booking-demo.html">Try Booking Demo</a>
-              <a class="btn btn-secondary" href="lead-demo.html">Try Lead Demo</a>
+              <a class="btn btn-primary" href="https://docusmart-by-saltech.pages.dev" target="_blank" rel="noopener">Try DocuSmart Free</a>
+              <a class="btn btn-secondary" href="contact.html">Book a Consultation</a>
             </div>
           </div>
 
           <div class="hero-panel">
-            <h3>What this page is for</h3>
+            <h3>What the Smart Suite does</h3>
             <p>
-              This page gives visitors a clean overview of each assistant, what it helps with, and which demos are ready to explore right now.
+              Three focused tools, each solving a real pain point — no subscriptions required to try them.
             </p>
             <div class="mini-list">
-              <div class="mini-list-item"><span class="mini-dot"></span><span>Booking assistant for scheduling conversations</span></div>
-              <div class="mini-list-item"><span class="mini-dot"></span><span>Lead capture assistant for prospect collection</span></div>
-              <div class="mini-list-item"><span class="mini-dot"></span><span>FAQ assistant for always-on customer support</span></div>
+              <div class="mini-list-item"><span class="mini-dot"></span><span>DocuSmart — analyze invoices &amp; receipts instantly</span></div>
+              <div class="mini-list-item"><span class="mini-dot"></span><span>ContractSmart — decode contracts in plain English</span></div>
+              <div class="mini-list-item"><span class="mini-dot"></span><span>ProposalSmart — generate professional proposals fast</span></div>
             </div>
           </div>
         </div>
@@ -541,89 +610,95 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <div class="section-kicker">Assistant lineup</div>
-            <h2>Explore the current SalTech assistant experience.</h2>
+            <div class="section-kicker">The toolkit</div>
+            <h2>Three tools. Three problems solved.</h2>
           </div>
           <p class="section-copy">
-            Each assistant below is designed around a specific business need, helping visitors move from questions to action in a faster, more guided way.
+            Each Smart Suite tool is purpose-built for a specific document challenge that small service businesses face every day.
           </p>
         </div>
 
-        <div class="assistant-grid">
-          <article class="card">
+        <div class="tool-grid">
+
+          <!-- DocuSmart -->
+          <article class="card card-docusmart">
             <div class="card-top">
-              <div class="card-icon">◎</div>
-              <span class="badge live">Live demo</span>
+              <div class="card-icon icon-teal">📄</div>
+              <span class="badge live">Live</span>
             </div>
-            <h3>Automatic Booking Assistant</h3>
-            <p>Helps website visitors choose services, ask booking-related questions, and move smoothly toward scheduling.</p>
+            <h3>DocuSmart</h3>
+            <p>Upload any invoice or receipt and get an instant AI breakdown — vendor, date, totals, line items, and a full PDF report you can download and share.</p>
 
             <div class="benefits">
-              <div class="benefit"><span class="benefit-check">✓</span><span>Turns interest into confirmed appointments</span></div>
-              <div class="benefit"><span class="benefit-check">✓</span><span>Reduces manual scheduling back-and-forth</span></div>
-              <div class="benefit"><span class="benefit-check">✓</span><span>Creates a modern and guided customer experience</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Extracts key data from any invoice instantly</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Generates a clean branded PDF report</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Saves hours of manual data entry and review</span></div>
             </div>
 
             <div class="actions-row">
-              <a class="btn btn-primary" href="booking-demo.html">Launch Booking Demo</a>
+              <a class="btn btn-teal" href="https://docusmart-by-saltech.pages.dev" target="_blank" rel="noopener">Launch DocuSmart →</a>
             </div>
           </article>
 
-          <article class="card">
+          <!-- ContractSmart -->
+          <article class="card card-contractsmart">
             <div class="card-top">
-              <div class="card-icon">✦</div>
-              <span class="badge live">Live demo</span>
+              <div class="card-icon icon-amber">📋</div>
+              <span class="badge live">Live</span>
             </div>
-            <h3>Lead Capture AI Agent</h3>
-            <p>Engages visitors naturally and collects contact details so businesses can follow up with qualified prospects.</p>
+            <h3>ContractSmart</h3>
+            <p>Upload any contract or service agreement and get a plain-English breakdown — key clauses, risk flags, payment terms, and cancellation conditions made clear.</p>
 
             <div class="benefits">
-              <div class="benefit"><span class="benefit-check">✓</span><span>Captures more potential customer opportunities</span></div>
-              <div class="benefit"><span class="benefit-check">✓</span><span>Improves first impressions and responsiveness</span></div>
-              <div class="benefit"><span class="benefit-check">✓</span><span>Supports long-term growth through lead generation</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Translates legal language into plain English</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Flags unusual clauses and potential risks</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Downloadable PDF &amp; Word summary report</span></div>
             </div>
 
             <div class="actions-row">
-              <a class="btn btn-primary" href="lead-demo.html">Launch Lead Demo</a>
+              <a class="btn btn-amber" href="https://contractsmart-by-saltech.pages.dev" target="_blank" rel="noopener">Launch ContractSmart →</a>
             </div>
           </article>
 
-          <article class="card">
+          <!-- ProposalSmart -->
+          <article class="card card-proposalsmart">
             <div class="card-top">
-              <div class="card-icon">↗</div>
-              <span class="badge soon">Coming soon</span>
+              <div class="card-icon icon-purple">✍️</div>
+              <span class="badge live">Live</span>
             </div>
-            <h3>24/7 AI FAQ Assistant</h3>
-            <p>Answers common customer questions instantly, helping businesses stay responsive even outside normal business hours.</p>
+            <h3>ProposalSmart</h3>
+            <p>Fill in a few fields about your client and job — AI generates a polished, professional proposal with pricing, timeline, terms, and a signature block ready to send.</p>
 
             <div class="benefits">
-              <div class="benefit"><span class="benefit-check">✓</span><span>Provides always-on customer support</span></div>
-              <div class="benefit"><span class="benefit-check">✓</span><span>Reduces repetitive inquiries and response delays</span></div>
-              <div class="benefit"><span class="benefit-check">✓</span><span>Improves customer satisfaction with quick answers</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Generates professional proposals in seconds</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Includes pricing, timeline &amp; terms automatically</span></div>
+              <div class="benefit"><span class="benefit-check">✓</span><span>Downloadable PDF &amp; editable Word document</span></div>
             </div>
 
             <div class="actions-row">
-              <span class="btn btn-secondary" style="cursor:default;">Demo Coming Soon</span>
+              <a class="btn btn-purple" href="https://proposalsmart-by-saltech.pages.dev" target="_blank" rel="noopener">Launch ProposalSmart →</a>
             </div>
           </article>
+
         </div>
 
         <div class="cta-wrap">
           <div class="section-kicker">Next step</div>
-          <h2>Want to see what AI can do for your business?</h2>
+          <h2>Ready to put the Smart Suite to work?</h2>
           <p class="section-copy">
-            Try one of the live demos or schedule a consultation to explore how SalTech Solutions can support your customer experience and automation goals.
+            Try any tool free — no account needed. Or book a consultation to explore how the full SalTech toolkit can be tailored for your business.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="booking-demo.html">Try a Demo</a>
+            <a class="btn btn-primary" href="https://docusmart-by-saltech.pages.dev" target="_blank" rel="noopener">Try a Tool Free</a>
             <a class="btn btn-secondary" href="contact.html">Book Consultation</a>
           </div>
         </div>
+
       </div>
     </section>
   </main>
 
-    <footer class="footer">
+  <footer class="footer">
     <div class="container footer-inner">
       <div>&copy; 2026 SalTech AI. All rights reserved.</div>
       <div style="display:flex; align-items:center; gap:18px;">
@@ -638,5 +713,6 @@
       </div>
     </div>
   </footer>
+
 </body>
 </html>
