@@ -1321,7 +1321,7 @@
         const response = await fetch('https://proposalsmart-api.suv4run.workers.dev', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contentBlock, fileName: docName, todayDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) })
+          body: JSON.stringify({ contentBlock, fileName: docName, todayDate: new Date().toLocaleDateString(selectedLang === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' }), language: selectedLang })
         });
 
         if (!response.ok) {
