@@ -1164,9 +1164,9 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
         if (selectedLang === 'es') {
           document.querySelector('.results-title').textContent = 'Análisis Completo';
           document.querySelector('.results-badge').textContent = '✓ ContractSmart revisado';
-          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Partes Involucradas';
-          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Fecha del Contrato';
-          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Valor del Contrato';
+          document.querySelector('.summary-grid .summary-card:nth-child(1) .summary-label').textContent = 'Partes Involucradas';
+          document.querySelector('.summary-grid .summary-card:nth-child(2) .summary-label').textContent = 'Fecha del Contrato';
+          document.querySelector('.summary-grid .summary-card:nth-child(3) .summary-label').textContent = 'Valor del Contrato';
           document.getElementById('downloadResultBtn').textContent = '⬇ Descargar PDF';
           document.getElementById('downloadWordBtn').textContent = '📝 Descargar Word';
           document.getElementById('copyResultBtn').textContent = '⎘ Copiar';
@@ -1174,9 +1174,9 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
         } else {
           document.querySelector('.results-title').textContent = 'Analysis Complete';
           document.querySelector('.results-badge').textContent = '✓ ContractSmart reviewed';
-          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Parties Involved';
-          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Contract Date';
-          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Contract Value';
+          document.querySelector('.summary-grid .summary-card:nth-child(1) .summary-label').textContent = 'Parties Involved';
+          document.querySelector('.summary-grid .summary-card:nth-child(2) .summary-label').textContent = 'Contract Date';
+          document.querySelector('.summary-grid .summary-card:nth-child(3) .summary-label').textContent = 'Contract Value';
           document.getElementById('downloadResultBtn').textContent = '⬇ Download PDF';
           document.getElementById('downloadWordBtn').textContent = '📝 Download Word';
           document.getElementById('copyResultBtn').textContent = '⎘ Copy';

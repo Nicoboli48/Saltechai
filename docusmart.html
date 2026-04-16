@@ -1164,18 +1164,18 @@ const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.cla
         if (selectedLang === 'es') {
           document.querySelector('.results-title').textContent = 'Análisis Completo';
           document.querySelector('.results-badge').textContent = '✓ DocuSmart revisado';
-          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Proveedor / Vendedor';
-          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Fecha del Documento';
-          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Monto Total';
+          document.querySelector('.summary-grid .summary-card:nth-child(1) .summary-label').textContent = 'Proveedor / Vendedor';
+          document.querySelector('.summary-grid .summary-card:nth-child(2) .summary-label').textContent = 'Fecha del Documento';
+          document.querySelector('.summary-grid .summary-card:nth-child(3) .summary-label').textContent = 'Monto Total';
           document.getElementById('downloadResultBtn').textContent = '⬇ Descargar PDF';
           document.getElementById('copyResultBtn').textContent = '⎘ Copiar';
           document.getElementById('newAnalysisBtn').textContent = '↺ Nuevo Análisis';
         } else {
           document.querySelector('.results-title').textContent = 'Analysis Complete';
           document.querySelector('.results-badge').textContent = '✓ DocuSmart reviewed';
-          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Vendor / Supplier';
-          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Document Date';
-          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Total Amount';
+          document.querySelector('.summary-grid .summary-card:nth-child(1) .summary-label').textContent = 'Vendor / Supplier';
+          document.querySelector('.summary-grid .summary-card:nth-child(2) .summary-label').textContent = 'Document Date';
+          document.querySelector('.summary-grid .summary-card:nth-child(3) .summary-label').textContent = 'Total Amount';
           document.getElementById('downloadResultBtn').textContent = '⬇ Download PDF';
           document.getElementById('copyResultBtn').textContent = '⎘ Copy';
           document.getElementById('newAnalysisBtn').textContent = '↺ New Analysis';
