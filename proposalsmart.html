@@ -803,6 +803,13 @@
       <div class="container">
         <div class="upload-card">
 
+          <!-- Language Toggle -->
+          <div class="lang-toggle">
+            <label>Output Language:</label>
+            <button class="lang-btn active" id="langEN" onclick="setLang('en')">🇺🇸 English</button>
+            <button class="lang-btn" id="langES" onclick="setLang('es')">🇪🇸 Español</button>
+          </div>
+
           <!-- Mode Toggle -->
           <div style="display:flex;gap:10px;margin-bottom:24px;">
             <button id="modeForm" class="analyze-btn" style="min-height:42px;font-size:0.9rem;border-radius:12px;flex:1;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));opacity:1;" onclick="switchMode('form')">✍️ Fill a Form</button>
@@ -1154,6 +1161,15 @@
     }
 
 
+
+    // ── LANGUAGE SELECTION ──
+    let selectedLang = 'en';
+    function setLang(lang) {
+      selectedLang = lang;
+      document.getElementById('langEN').classList.toggle('active', lang === 'en');
+      document.getElementById('langES').classList.toggle('active', lang === 'es');
+    }
+
     // ── USAGE LIMIT SYSTEM ──
     const TOOL_KEY = 'saltechai_proposalsmart';
     const MAX_USES = 2;
@@ -1199,7 +1215,13 @@
       // Increment analyse count
       const usageNow = getUsage(); usageNow.analyses++; saveUsage(usageNow);
       analyzeBtn.disabled = true;
-      btnText.textContent = 'Generating...';
+      if (selectedLang === 'es') {
+        btnText.textContent = 'Generando...';
+        document.querySelector('.loading-text').textContent = 'ProposalSmart está creando su propuesta...';
+      } else {
+        btnText.textContent = 'Generating...';
+        document.querySelector('.loading-text').textContent = 'ProposalSmart is building your proposal...';
+      }
       loadingState.classList.add('visible');
       resultsSection.classList.remove('visible');
       errorBox.classList.remove('visible');
@@ -1283,6 +1305,29 @@
         const flagsBox = document.getElementById('flagsBox');
         if (flagsBox) flagsBox.classList.remove('visible');
 
+        if (selectedLang === 'es') {
+          document.querySelector('.results-title').textContent = 'Propuesta Lista';
+          document.querySelector('.results-badge').textContent = '✓ ProposalSmart generado';
+          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Cliente';
+          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Tipo de Servicio';
+          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Fecha de Propuesta';
+          document.querySelector('.summary-cards .summary-card:nth-child(4) .summary-label').textContent = 'Valor Total';
+          document.getElementById('downloadResultBtn').textContent = '⬇ Descargar PDF';
+          document.getElementById('downloadWordBtn').textContent = '📝 Descargar Word';
+          document.getElementById('copyResultBtn').textContent = '⎘ Copiar';
+          document.getElementById('newAnalysisBtn').textContent = '↺ Nueva Propuesta';
+        } else {
+          document.querySelector('.results-title').textContent = 'Proposal Ready';
+          document.querySelector('.results-badge').textContent = '✓ ProposalSmart generated';
+          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Client';
+          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Service Type';
+          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Proposal Date';
+          document.querySelector('.summary-cards .summary-card:nth-child(4) .summary-label').textContent = 'Total Value';
+          document.getElementById('downloadResultBtn').textContent = '⬇ Download PDF';
+          document.getElementById('downloadWordBtn').textContent = '📝 Download Word';
+          document.getElementById('copyResultBtn').textContent = '⎘ Copy';
+          document.getElementById('newAnalysisBtn').textContent = '↺ New Proposal';
+        }
         loadingState.classList.remove('visible');
         resultsSection.classList.add('visible');
 
@@ -1292,7 +1337,7 @@
         errorBox.classList.add('visible');
       } finally {
         analyzeBtn.disabled = false;
-        btnText.textContent = '✦ Generate Proposal';
+        btnText.textContent = selectedLang === 'es' ? '✦ Generar Propuesta' : '✦ Generate Proposal';
       }
     });
 
