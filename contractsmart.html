@@ -803,6 +803,13 @@
       <div class="container">
         <div class="upload-card">
 
+          <!-- Language Toggle -->
+          <div class="lang-toggle">
+            <label>Output Language:</label>
+            <button class="lang-btn active" id="langEN" onclick="setLang('en')">🇺🇸 English</button>
+            <button class="lang-btn" id="langES" onclick="setLang('es')">🇪🇸 Español</button>
+          </div>
+
           <!-- Drop Zone -->
           <div class="drop-zone" id="dropZone">
             <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp,.docx,.xlsx,.xls,.csv" />
@@ -1027,6 +1034,15 @@
     }
 
 
+
+    // ── LANGUAGE SELECTION ──
+    let selectedLang = 'en';
+    function setLang(lang) {
+      selectedLang = lang;
+      document.getElementById('langEN').classList.toggle('active', lang === 'en');
+      document.getElementById('langES').classList.toggle('active', lang === 'es');
+    }
+
     // ── USAGE LIMIT SYSTEM ──
     const TOOL_KEY = 'saltechai_contractsmart';
     const MAX_USES = 2;
@@ -1074,7 +1090,13 @@
       // Increment analyse count
       const usageNow = getUsage(); usageNow.analyses++; saveUsage(usageNow);
       analyzeBtn.disabled = true;
-      btnText.textContent = 'Analyzing...';
+      if (selectedLang === 'es') {
+        btnText.textContent = 'Analizando...';
+        document.querySelector('.loading-text').textContent = 'ContractSmart está leyendo su contrato...';
+      } else {
+        btnText.textContent = 'Analyzing...';
+        document.querySelector('.loading-text').textContent = 'ContractSmart is reading your contract...';
+      }
       loadingState.classList.add('visible');
       resultsSection.classList.remove('visible');
       errorBox.classList.remove('visible');
@@ -1119,7 +1141,7 @@
         const response = await fetch('https://contractsmart-api.suv4run.workers.dev', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contentBlock, fileName: currentFile.name })
+          body: JSON.stringify({ contentBlock, fileName: currentFile.name, language: selectedLang })
         });
 
         if (!response.ok) {
@@ -1139,6 +1161,27 @@
 
 const flagsBox = document.getElementById('flagsBox'); if (flagsBox) flagsBox.classList.remove('visible');
 
+        if (selectedLang === 'es') {
+          document.querySelector('.results-title').textContent = 'Análisis Completo';
+          document.querySelector('.results-badge').textContent = '✓ ContractSmart revisado';
+          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Partes Involucradas';
+          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Fecha del Contrato';
+          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Valor del Contrato';
+          document.getElementById('downloadResultBtn').textContent = '⬇ Descargar PDF';
+          document.getElementById('downloadWordBtn').textContent = '📝 Descargar Word';
+          document.getElementById('copyResultBtn').textContent = '⎘ Copiar';
+          document.getElementById('newAnalysisBtn').textContent = '↺ Nuevo Análisis';
+        } else {
+          document.querySelector('.results-title').textContent = 'Analysis Complete';
+          document.querySelector('.results-badge').textContent = '✓ ContractSmart reviewed';
+          document.querySelector('.summary-cards .summary-card:nth-child(1) .summary-label').textContent = 'Parties Involved';
+          document.querySelector('.summary-cards .summary-card:nth-child(2) .summary-label').textContent = 'Contract Date';
+          document.querySelector('.summary-cards .summary-card:nth-child(3) .summary-label').textContent = 'Contract Value';
+          document.getElementById('downloadResultBtn').textContent = '⬇ Download PDF';
+          document.getElementById('downloadWordBtn').textContent = '📝 Download Word';
+          document.getElementById('copyResultBtn').textContent = '⎘ Copy';
+          document.getElementById('newAnalysisBtn').textContent = '↺ New Analysis';
+        }
         loadingState.classList.remove('visible');
         resultsSection.classList.add('visible');
 
